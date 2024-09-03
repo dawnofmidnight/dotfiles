@@ -1,5 +1,8 @@
 { pkgs, ... }: {
-  imports = [ ./nushell ];
+  imports = [
+    ./kitty.nix
+    ./nushell
+  ];
 
   programs.atuin = {
     enable = true;
@@ -8,7 +11,7 @@
 
   programs.bat = {
     enable = true;
-    # config.theme = "GitHub"; stylix
+    config.theme = "GitHub";
   };
 
   programs.direnv = { 

@@ -3,7 +3,7 @@
     enable = true;
     package = pkgs-unstable.helix;
     settings = {
-      # theme = "rose_pine_dawn";
+      theme = "rose_pine_dawn";
       editor = {
         line-number = "relative";
         true-color = true;

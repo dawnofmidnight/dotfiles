@@ -22,8 +22,7 @@
     ];
 
     userSettings = {
-      # "editor.fontFamily" = "monospace";
-      # "workbench.colorTheme" = "Rosé Pine Dawn";
+      "editor.fontFamily" = "monospace";
       "editor.formatOnPaste" = true;
       "editor.formatOnSave" = true;
       "editor.formatOnType" = true;
@@ -42,6 +41,7 @@
       "files.autoSave" = "afterDelay";
       "nix.enableLanguageServer" = true;
       "nix.serverPath" = lib.getExe pkgs.nixd;
+      "workbench.colorTheme" = "Rosé Pine Dawn";
     };
   };
 }

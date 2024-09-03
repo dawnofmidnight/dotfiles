@@ -12,8 +12,6 @@
     };
   };
   
-  # programs.thunderbird.enable = true;
-
   home.packages = with pkgs; [ obsidian ];
 
   programs.home-manager.enable = true;

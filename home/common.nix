@@ -1,10 +1,13 @@
-{
+{ pkgs, ... }: {
   imports = [
+    ./audio.nix
     ./dev
-    ./gnome.nix
+    ./desktop
     ./internet.nix
-    ./shell
+    ./terminal
   ];
 
   xdg.enable = true;
+
+  home.packages = with pkgs; [ qalculate-gtk ];
 }

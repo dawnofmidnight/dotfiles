@@ -1,0 +1,143 @@
+{ config, lib, pkgs, ... }:
+let
+  river-refresh = pkgs.writeShellApplication {
+    name = "river-refresh";
+    runtimeInputs = with pkgs; [ bash ];
+    text = "bash ${config.xdg.configFile."river/init".source}";
+  };
+in {
+  home.packages = [ river-refresh ] ++ (with pkgs; [    
+    mako
+    pavucontrol
+    slurp
+    wayshot
+    wl-clipboard
+    wl-screenrec
+    wlr-randr
+  ]);
+
+  wayland.windowManager.river = {
+    enable = true;
+    settings =
+      let
+        mod = "Super";
+        shift = "Shift";
+        ctrl = "Control";
+        alt = "Alt";
+        bind = mods: key: command: {
+          name = "${
+            if builtins.length mods != 0
+            then lib.concatStringsSep "+" mods
+            else "None"
+          } ${key}";
+          value = command;
+        };
+
+        pow2 = n:
+          if n == 1 then 2
+          else if n == 0 then 1 else 2 * pow2 (n - 1);
+      in {
+        # mostly derived from https://codeberg.org/river/river/src/branch/master/example/init       
+        map.normal = builtins.listToAttrs (lib.lists.flatten [
+          (bind [mod shift] "Return" "spawn ${lib.getExe config.programs.kitty.package}")
+          (bind [mod] "space" "spawn '${lib.getExe config.programs.rofi.package} -show drun'")
+          (bind [mod] "z" "spawn ${lib.getExe config.programs.wlogout.package}")          
+        
+          (bind [mod] "q" "close")
+
+          (bind [mod] "j" "focus-view next")
+          (bind [mod]  "k" "focus-view previous")
+
+          (bind [mod shift] "j" "swap next")
+          (bind [mod shift] "k" "swap previous")
+
+          (bind [mod] "Period" "focus-output next")
+          (bind [mod] "Comma" "focus-output previous")
+
+          (bind [mod shift] "Period" "send-to-output next")
+          (bind [mod shift] "Comma" "send-to-output previous")
+
+          (bind [mod] "Return" "zoom")
+
+          (bind [mod] "h" ''send-layout-cmd rivertile "main-ratio -0.05"'')
+          (bind [mod] "l" ''send-layout-cmd rivertile "main-ratio +0.05"'')
+
+          (bind [mod shift] "h" ''send-layout-cmd rivertile "main-count +1"'')
+          (bind [mod shift] "l" ''send-layout-cmd rivertile "main-count -1"'')
+
+          (bind [mod alt] "h" "move left 100")
+          (bind [mod alt] "j" "move down 100")
+          (bind [mod alt] "k" "move up 100")
+          (bind [mod alt] "l" "move right 100")
+
+          (bind [mod alt ctrl] "h" "snap left")
+          (bind [mod alt ctrl] "j" "snap down")
+          (bind [mod alt ctrl] "k" "snap up")
+          (bind [mod alt ctrl] "l" "snap right")
+
+          (bind [mod alt shift] "h" "resize horizontal -100")
+          (bind [mod alt shift] "j" "resize vertical 100")
+          (bind [mod alt shift] "k" "resize vertical -100")
+          (bind [mod alt shift] "l" "resize horizontal 100")
+
+          # tags
+          (let
+            n' = n: toString (pow2 (n - 1));
+            range = lib.range 1 9;
+          in [
+            (map (n: (bind [mod] "${toString n}" "set-focused-tags ${n' n}")) range)
+            (map (n: (bind [mod shift] "${toString n}" "set-view-tags ${n' n}")) range)
+            (map (n: (bind [mod ctrl] "${toString n}" "toggle-focused-tags ${n' n}")) range)
+            (map (n: (bind [mod shift ctrl] "${toString n}" "set-view-tags ${n' n}")) range)
+          ])
+          (let
+            allTags = toString (pow2 32);
+          in [
+            (bind [mod] "0" "set-focused-tags ${allTags}")
+            (bind [mod] "0" "set-view-tags ${allTags}")
+          ])
+
+          (bind [mod] "f" "toggle-float")
+          (bind [mod shift] "f" "toggle-fullscreen")
+
+          (bind [mod] "up" "send-layout-command rivertile 'main-location top'")
+          (bind [mod] "right" "send-layout-command rdivertile 'main-location right'")
+          (bind [mod] "down" "send-layout-command rivertile 'main-location bottom'")
+          (bind [mod] "left" "send-layout-command rivertile 'main-location left'")
+
+          (bind [] "XF86AudioRaiseVolume" "spawn 'wpctl set-volume -l 1.0 @DEFAULT_SINK@ 1%+'")
+          (bind [] "XF86AudioLowerVolume" "spawn 'wpctl set-volume -l 1.0 @DEFAULT_SINK@ 1%-'")
+          (bind [] "XF86AudioMute" "spawn 'wpctl set-mute @DEFAULT_SINK@ toggle'")
+
+          (bind [] "XF86MonBrightnessUp" "spawn 'light -A 5'")
+          (bind [] "XF86MonBrightnessDown" "spawn 'light -U 5'")
+        ]);
+
+        map-pointer.normal = builtins.listToAttrs (lib.lists.flatten [
+          (bind [mod] "BTN_LEFT" "move-view")
+          (bind [mod] "BTN_RIGHT" "resize-view")
+          (bind [mod] "BTN_MIDDLE" "toggle-float")
+        ]);
+
+        spawn = [
+          "'${lib.getExe pkgs.wlr-randr} --output eDP-1 --scale 1.5'"
+          "rivertile"
+        ];
+
+        default-layout = "rivertile";        
+      };
+  };
+
+  systemd.user.services.river-background = {
+    Unit = {
+      PartOf = ["graphical-session.target"];
+      Description = "Set backgrounds";
+    };
+    Install.WantedBy = ["graphical-session.target"];
+    Service = {
+      ExecStart = "${lib.getExe pkgs.swaybg} -i ${./background.jpg} -m fill";
+      Restart = "on-failure";
+      RestartSec = 1;
+    };
+  };
+}

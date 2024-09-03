@@ -8,8 +8,4 @@
   ];
 
   home.packages = with pkgs; [ nixd ];
-
-  programs.kitty = {
-    enable = true;
-  };
 }

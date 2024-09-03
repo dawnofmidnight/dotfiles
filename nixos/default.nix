@@ -3,9 +3,6 @@
     ./hardware-configuration.nix
   ];
 
-  # Bootloader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
@@ -43,39 +40,60 @@
     };
   };
 
-  services.xserver = {
+  # services.xserver = {
+  #   enable = true;
+  #   displayManager.gdm.enable = true;
+  #   desktopManager.gnome.enable = true;
+  #   videoDrivers = [ "modesetting" ];
+  #   xkb = {
+  #     layout = "us";
+  #     variant = "";
+  #   };
+  # };
+  # programs.dconf = {
+  #   enable = true;
+  #   profiles.user.databases = [
+  #     {
+  #       lockAll = true;
+  #       settings = {
+  #         "org/gnome/mutter".experimental-features = [ "scale-monitor-framebuffer" ];
+  #       };
+  #     }
+  #   ];
+  # };
+
+  environment.systemPackages = with pkgs; [
+    libreoffice-qt
+    hunspell
+    hunspellDicts.en_US
+
+    # grim # screenshot functionality
+    # slurp # screenshot functionality
+    # wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+    # mako # notification system developed by swaywm maintainer
+  ];
+
+  hardware.opengl = {
     enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    videoDrivers = [ "modesetting" ];
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
+    extraPackages = with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver ];
   };
-  programs.dconf = {
-    enable = true;
-    profiles.user.databases = [
-      {
-        lockAll = true;
-        settings = {
-          "org/gnome/mutter".experimental-features = [ "scale-monitor-framebuffer" ];
-        };
-      }
-    ];
-  };
+
+  security.polkit.enable = true;
 
   # necessary for vscode to load in wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   services.printing.enable = true;
 
-  hardware.pulseaudio.enable = false;
+  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
+    jack.enable = true;
     pulse.enable = true;
   };
 
@@ -100,11 +118,13 @@
     users.dawn = {
       isNormalUser = true;
       home = "/home/dawn";
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = [ "networkmanager" "video" "wheel" ];
       shell = pkgs-unstable.nushell;
       hashedPassword = "$y$j9T$O7TCsYTix3J1Fu2PCZ/Pp1$iOIT6e2tn2kdZNRz09UIy1QgaoWbwBNczZItsDuiAw9";
     };
   };
+
+  programs.light.enable = true;
 
   programs.firefox.enable = true;
 
@@ -128,46 +148,40 @@
 
   home-manager.backupFileExtension = "backup";
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   system.stateVersion = "24.05";
 
-  environment.systemPackages = with pkgs; [
-    libreoffice-qt
-    hunspell
-    hunspellDicts.en_US
-  ];
-
-  stylix = {
-    enable = true;
-    image = ./wallpaper.jpg;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine-dawn.yaml";
-    cursor = {
-      package = pkgs.rose-pine-cursor;
-      name = "BreezeX-RosePineDawn-Linux";
-    };
-    fonts = {
-      monospace = {
-        package = pkgs.iosevka;
-        name = "Iosevka";
+  fonts = {
+    packages = with pkgs; [
+      fira-sans
+      (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
+    ];
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        sansSerif = [ "Fira Sans" ];
+        monospace = [ "Iosevka Nerd Font" ];
       };
-      sansSerif = {
-        package = pkgs.fira-sans;
-        name = "Fira Sans";
-      };
-      sizes.applications = 10;
-      # sizes.desktop = 11;
-      # sizes.popups = 11;
-      # sizes.terminal = 11;
     };
   };
 
-  # certain fonts are screwed up without this (2024-09-03)
-  environment.sessionVariables.GSK_RENDERER = "gl";
+  documentation.man.generateCaches = true;
+  
+  services.greetd = {                                                      
+    enable = true;                                                         
+    settings = {                                                           
+      default_session = {                                                  
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd river";
+        user = "greeter";                                                  
+      };                                                                   
+    };                                                                     
+  };
+
+  # # swaylock won't unlock correctly if this isn't here
+  # security.pam.services.swaylock = {};
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+  services.blueman.enable = true;
 }

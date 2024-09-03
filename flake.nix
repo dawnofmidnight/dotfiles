@@ -4,18 +4,15 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lix = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 	  nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    stylix = {
-      url = "github:danth/stylix/release-24.05";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
-      };
-    };
   };
 
-  outputs = inputs @ { home-manager, nixpkgs, nixpkgs-unstable, stylix, ... }:
+  outputs = inputs @ { home-manager, lix, nixpkgs, nixpkgs-unstable, ... }:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
@@ -26,8 +23,8 @@
         inherit system;
         specialArgs = { inherit inputs pkgs pkgs-unstable; };
         modules = [
+          lix.nixosModules.default
           home-manager.nixosModules.home-manager
-          stylix.nixosModules.stylix
           ./nixos
           {
             home-manager.useGlobalPkgs = true;
