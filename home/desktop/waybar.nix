@@ -1,8 +1,10 @@
-{
+let
+  colors = (import ../../lib/colors.nix).rose-pine-dawn;
+in {
   programs.waybar = {
     enable = true;
     systemd.enable = true;
-
+    
     settings = {
       bar = {
         layer = "top";
@@ -13,19 +15,17 @@
         "river/tags".num-tags = 4;
         
         pulseaudio = {
-          format = "{icon} {volume}% {format_source}";
-          format-bluetooth = "{icon} {volume}% {format_source}";
-          format-bluetooth-muted = " {icon} {format_source}";
-          format-muted = " {format_source}";
-          format-source = "{volume}% ";
-          format-source-muted = "";
+          format = "{icon} {volume}%";
+          format-bluetooth = "{icon}   {volume}%";
+          format-bluetooth-muted = "  {icon} ";
+          format-muted = " {volume}%";
           format-icons = {
             headphone = "";
             hands-free = "";
             headset = "";
             phone = "";
             portable = "";
-            default = ["" "" "" ];
+            default = [ "" "" "" ];
           };
           on-click = "pavucontrol";
         };
@@ -36,16 +36,15 @@
         };
 
         network = {
-          format-wifi = " {essid} ({signalStrength}%)";
-          format-ethernet = " {ipaddr}/{cidr}";
+          format-wifi = "  {essid} ({signalStrength}%)";
+          format-ethernet = "  {ipaddr}/{cidr}";
           format-linked = "  {ifname} (No IP)";
           format-disconnected = "⚠ Disconnected";
-          format-alt = "{ifname}: {ipaddr}/{cidr}";
-          tooltip-format = " {ifname} via {gwaddr}";
+          tooltip-format = "{ifname} ({ipaddr}/{cidr}) via {gwaddr}";
         };
         
         battery = {
-          format = "{icon} {capacity}%";
+          format = "{icon}  {capacity}%";
           format-charging = " {capacity}%";
           format-icons = [ "" "" "" "" "" ];
         };
@@ -53,7 +52,7 @@
         clock.format = "{:%a %F %R}";
       };
     };
-    
+
     style = ''
       * {
         font-family: monospace;
@@ -63,56 +62,60 @@
         background: transparent;
       }
 
-      #mode {
-        margin-left: 10px;
-      }
-
-      #clock {
-        margin-right: 10px;
-      }
+      #mode  { margin-left:  10px; }
+      #clock { margin-right: 10px; }
 
       .module {
-        background-color: #faf4ed;
-        border: 1px solid #cecacd;
+        background-color: ${colors.base};
+        border: 1px solid ${colors.highlightHigh};
         border-radius: 8px;
         padding: 0 16px;
         margin: 6px 4px 0 4px;
-        color: #575279;
+        color: ${colors.text};
+      }
+
+      #tags {
+        margin: 8px 0 0 0;
       }
 
       #tags button {
+        border: none;
         margin: 0 4px;
       }
 
-      #tags button.occupied {
-        background-color: #dfdad9;
-        color: #575279;
+      #tags button:hover {
+        background: none;
+        border: none;
+        box-shadow: none;
+        text-shadow: none;
+        background-color: #f2e9e1;
       }
-      
+
+      #tags button.occupied {
+        background-color: #ebbcba;
+      }
+
+      #tags button.occupied:hover {
+        background-color: #df9695; 
+      }
+
       #tags button.focused {
         background-color: #b4637a; 
-        color: white;
+        color: #faf4ed;
       }
 
-      #clock {
-        color: #d7827e;
+      #tags button.focused:hover {
+        background-color: #9b4b60;
       }
 
-      #battery {
-        color: #b4637a;
-      }
+      #tags button:first-child { margin-left: 0; }
+      #tags button:last-child { margin-right: 0; }
 
-      #network {
-        color: #907aa9;
-      }
-
-      #backlight {
-        color: #286983;
-      }
-
-      #pulseaudio {
-        color: #56949f;
-      }
+      #clock      { color: ${colors.rose}; }
+      #battery    { color: ${colors.love}; }
+      #network    { color: ${colors.iris}; }
+      #backlight  { color: ${colors.pine}; }
+      #pulseaudio { color: ${colors.foam}; }
     '';
   };
 }

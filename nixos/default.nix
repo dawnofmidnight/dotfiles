@@ -40,37 +40,10 @@
     };
   };
 
-  # services.xserver = {
-  #   enable = true;
-  #   displayManager.gdm.enable = true;
-  #   desktopManager.gnome.enable = true;
-  #   videoDrivers = [ "modesetting" ];
-  #   xkb = {
-  #     layout = "us";
-  #     variant = "";
-  #   };
-  # };
-  # programs.dconf = {
-  #   enable = true;
-  #   profiles.user.databases = [
-  #     {
-  #       lockAll = true;
-  #       settings = {
-  #         "org/gnome/mutter".experimental-features = [ "scale-monitor-framebuffer" ];
-  #       };
-  #     }
-  #   ];
-  # };
-
   environment.systemPackages = with pkgs; [
     libreoffice-qt
     hunspell
     hunspellDicts.en_US
-
-    # grim # screenshot functionality
-    # slurp # screenshot functionality
-    # wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    # mako # notification system developed by swaywm maintainer
   ];
 
   hardware.opengl = {
@@ -177,7 +150,7 @@
   };
 
   # # swaylock won't unlock correctly if this isn't here
-  # security.pam.services.swaylock = {};
+  security.pam.services.swaylock = {};
 
   hardware.bluetooth = {
     enable = true;

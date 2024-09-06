@@ -6,10 +6,11 @@ let
     text = "bash ${config.xdg.configFile."river/init".source}";
   };
 in {
-  home.packages = [ river-refresh ] ++ (with pkgs; [    
+  home.packages = [ river-refresh ] ++ (with pkgs; [
     mako
     pavucontrol
     slurp
+    rose-pine-cursor
     wayshot
     wl-clipboard
     wl-screenrec
@@ -37,11 +38,23 @@ in {
           if n == 1 then 2
           else if n == 0 then 1 else 2 * pow2 (n - 1);
       in {
+        default-layout = "rivertile";
+
+        spawn = [
+          "'${lib.getExe pkgs.wlr-randr} --output eDP-1 --scale 1.5'"
+          "rivertile"
+        ];
+
+        border-color-focused = "0xb4637a";
+        border-color-unfocused = "0xebbcba";
+
+        xcursor-theme = "BreezeX-RosePineDawn-Linux 24";
+      
         # mostly derived from https://codeberg.org/river/river/src/branch/master/example/init       
         map.normal = builtins.listToAttrs (lib.lists.flatten [
           (bind [mod shift] "Return" "spawn ${lib.getExe config.programs.kitty.package}")
           (bind [mod] "space" "spawn '${lib.getExe config.programs.rofi.package} -show drun'")
-          (bind [mod] "z" "spawn ${lib.getExe config.programs.wlogout.package}")          
+          (bind [mod] "z" "spawn '${lib.getExe config.programs.wlogout.package} -r 32 -c 32'")
         
           (bind [mod] "q" "close")
 
@@ -104,14 +117,16 @@ in {
           (bind [mod] "right" "send-layout-command rdivertile 'main-location right'")
           (bind [mod] "down" "send-layout-command rivertile 'main-location bottom'")
           (bind [mod] "left" "send-layout-command rivertile 'main-location left'")
+        ]);
 
+        map."-repeat".normal = builtins.listToAttrs [
           (bind [] "XF86AudioRaiseVolume" "spawn 'wpctl set-volume -l 1.0 @DEFAULT_SINK@ 1%+'")
           (bind [] "XF86AudioLowerVolume" "spawn 'wpctl set-volume -l 1.0 @DEFAULT_SINK@ 1%-'")
           (bind [] "XF86AudioMute" "spawn 'wpctl set-mute @DEFAULT_SINK@ toggle'")
 
           (bind [] "XF86MonBrightnessUp" "spawn 'light -A 5'")
           (bind [] "XF86MonBrightnessDown" "spawn 'light -U 5'")
-        ]);
+        ];
 
         map-pointer.normal = builtins.listToAttrs (lib.lists.flatten [
           (bind [mod] "BTN_LEFT" "move-view")
@@ -119,12 +134,10 @@ in {
           (bind [mod] "BTN_MIDDLE" "toggle-float")
         ]);
 
-        spawn = [
-          "'${lib.getExe pkgs.wlr-randr} --output eDP-1 --scale 1.5'"
-          "rivertile"
-        ];
-
-        default-layout = "rivertile";        
+        rule-add."-app-id" = {
+          "firefox" = "ssd";
+          "google-chrome" = "ssd";
+        };
       };
   };
 
