@@ -2,6 +2,7 @@
   programs.helix = {
     enable = true;
     package = pkgs-unstable.helix;
+    
     settings = {
       theme = "rose_pine_dawn";
       editor = {
@@ -25,5 +26,10 @@
         };
       };
     };
+
+    languages.language = [{
+      name = "sql";
+      indent = { tab-width = 4; unit = "  "; };
+    }];
   };
 }

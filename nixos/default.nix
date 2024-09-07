@@ -125,12 +125,14 @@
 
   fonts = {
     packages = with pkgs; [
+      crimson
       fira-sans
       (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
     ];
     fontconfig = {
       enable = true;
       defaultFonts = {
+        serif = [ "Crimson" ];
         sansSerif = [ "Fira Sans" ];
         monospace = [ "Iosevka Nerd Font" ];
       };
@@ -157,4 +159,13 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
+
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 }

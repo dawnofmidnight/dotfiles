@@ -1,9 +1,10 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs-unstable, ... }: {
   programs.vscode = {
     enable = true;
+    package = pkgs-unstable.vscode;
     mutableExtensionsDir = false;
     
-    extensions = (with pkgs.vscode-extensions; [
+    extensions = (with pkgs-unstable.vscode-extensions; [
       jnoortheen.nix-ide
       mkhl.direnv
       ms-python.python
@@ -12,7 +13,7 @@
       rust-lang.rust-analyzer
       tamasfe.even-better-toml
       usernamehw.errorlens
-    ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    ]) ++ pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
       {
         name = "lean4";
         publisher = "leanprover";
@@ -40,7 +41,7 @@
       ];
       "files.autoSave" = "afterDelay";
       "nix.enableLanguageServer" = true;
-      "nix.serverPath" = lib.getExe pkgs.nixd;
+      "nix.serverPath" = lib.getExe pkgs-unstable.nixd;
       "workbench.colorTheme" = "Rosé Pine Dawn";
     };
   };
