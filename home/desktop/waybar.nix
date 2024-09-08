@@ -13,6 +13,8 @@ in {
         modules-right = [ "pulseaudio" "backlight" "network" "battery" "clock" ];
 
         "river/tags".num-tags = 4;
+
+        "river/window".max-length = 100;
         
         pulseaudio = {
           format = "{icon} {volume}%";

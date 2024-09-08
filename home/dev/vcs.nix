@@ -28,7 +28,10 @@ in
         gpg.format = "ssh";
         user.signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
       };
-      delta.enable = true;
+      delta = {
+        enable = true;
+        options.syntax-theme = "GitHub";
+      };
     };
 
     programs.jujutsu = {
@@ -36,7 +39,7 @@ in
       settings = {
         user = { inherit (cfg.user) name email; };
         ui = {
-          diff = ["${lib.getExe pkgs.delta}" "$left" "$right"];
+          diff.tool = ["${lib.getExe pkgs.delta}" "$left" "$right"];
           editor = lib.getExe config.programs.helix.package;
         };
         signing = {

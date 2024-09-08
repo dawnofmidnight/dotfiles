@@ -135,10 +135,16 @@ in {
         ]);
 
         rule-add."-app-id" = {
+          "Eclipse" = "ssd";
           "firefox" = "ssd";
           "google-chrome" = "ssd";
+          "obsidian" = "ssd";
         };
       };
+    extraConfig = ''
+      riverctl input touch-1267-16981-ELAN9020:00_04F3:4255 map-to-output eDP-1
+      riverctl input pointer-1226-177-04CA00A0:00_04CA:00B1_Touchpad tap enabled
+    '';
   };
 
   systemd.user.services.river-background = {
