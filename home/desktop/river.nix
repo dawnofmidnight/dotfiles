@@ -72,11 +72,11 @@ in {
 
           (bind [mod] "Return" "zoom")
 
-          (bind [mod] "h" ''send-layout-cmd rivertile "main-ratio -0.05"'')
-          (bind [mod] "l" ''send-layout-cmd rivertile "main-ratio +0.05"'')
+          (bind [mod] "h" "send-layout-cmd rivertile 'main-ratio -0.05'")
+          (bind [mod] "l" "send-layout-cmd rivertile 'main-ratio +0.05'")
 
-          (bind [mod shift] "h" ''send-layout-cmd rivertile "main-count +1"'')
-          (bind [mod shift] "l" ''send-layout-cmd rivertile "main-count -1"'')
+          (bind [mod shift] "h" "send-layout-cmd rivertile 'main-count +1'")
+          (bind [mod shift] "l" "send-layout-cmd rivertile 'main-count -1'")
 
           (bind [mod alt] "h" "move left 100")
           (bind [mod alt] "j" "move down 100")
@@ -113,10 +113,10 @@ in {
           (bind [mod] "f" "toggle-float")
           (bind [mod shift] "f" "toggle-fullscreen")
 
-          (bind [mod] "up" "send-layout-command rivertile 'main-location top'")
-          (bind [mod] "right" "send-layout-command rdivertile 'main-location right'")
-          (bind [mod] "down" "send-layout-command rivertile 'main-location bottom'")
-          (bind [mod] "left" "send-layout-command rivertile 'main-location left'")
+          (bind [mod] "up" "send-layout-cmd rivertile 'main-location top'")
+          (bind [mod] "right" "send-layout-cmd rdivertile 'main-location right'")
+          (bind [mod] "down" "send-layout-cmd rivertile 'main-location bottom'")
+          (bind [mod] "left" "send-layout-cmd rivertile 'main-location left'")
         ]);
 
         map."-repeat".normal = builtins.listToAttrs [

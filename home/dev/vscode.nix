@@ -5,6 +5,7 @@
     mutableExtensionsDir = false;
     
     extensions = (with pkgs-unstable.vscode-extensions; [
+      catppuccin.catppuccin-vsc-icons
       jnoortheen.nix-ide
       mkhl.direnv
       ms-python.python
@@ -24,6 +25,7 @@
 
     userSettings = {
       "editor.fontFamily" = "monospace";
+      "editor.fontLigatures" = true;
       "editor.formatOnPaste" = true;
       "editor.formatOnSave" = true;
       "editor.formatOnType" = true;
@@ -43,6 +45,7 @@
       "nix.enableLanguageServer" = true;
       "nix.serverPath" = lib.getExe pkgs-unstable.nixd;
       "workbench.colorTheme" = "Rosé Pine Dawn";
+      "workbench.iconTheme" = "catppuccin-latte";
     };
   };
 }
