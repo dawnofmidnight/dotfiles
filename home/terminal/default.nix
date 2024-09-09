@@ -1,8 +1,5 @@
 { pkgs, ... }: {
-  imports = [
-    ./kitty.nix
-    ./nushell
-  ];
+  imports = [ ./nushell ];
 
   programs.atuin = {
     enable = true;
@@ -23,8 +20,19 @@
 
   programs.fzf.enable = true;
 
+  programs.kitty = {
+    enable = true;
+    font.name = "Iosevka";
+    theme = "Rosé Pine Dawn";
+  };
+
   programs.ripgrep.enable = true;
 
+  programs.yazi = {
+    enable = true;
+    enableNushellIntegration = true;
+  };
+  
   programs.zoxide = {
     enable = true;
     enableNushellIntegration = true;

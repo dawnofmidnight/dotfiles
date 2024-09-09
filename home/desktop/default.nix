@@ -6,11 +6,18 @@
     ./wlogout.nix
   ];
 
+  home.pointerCursor = {    
+    package = pkgs.rose-pine-cursor;
+    name = "BreezeX-RosePineDawn-Linux";
+    size = 32;
+    gtk.enable = true;
+  };
+
   services.swayidle = {
     enable = true;
     timeouts = [
-      { timeout = 180; command = "${lib.getExe config.programs.swaylock.package} -fF"; }
-      { timeout = 300; command = "${lib.getExe' pkgs.systemd "systemctl"} suspend"; }
+      { timeout = 300; command = "${lib.getExe config.programs.swaylock.package} -fF"; }
+      { timeout = 450; command = "${lib.getExe' pkgs.systemd "systemctl"} suspend"; }
     ];
   };
 

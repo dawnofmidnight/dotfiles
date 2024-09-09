@@ -113,6 +113,8 @@
   # # swaylock won't unlock correctly if this isn't here
   security.pam.services.swaylock = {};
 
+  programs.dconf.enable = true;
+
   virtualisation = {
     containers.enable = true;
     podman = {
@@ -126,6 +128,7 @@
     packages = with pkgs; [
       crimson
       fira-sans
+      lmodern
       (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
       noto-fonts-emoji
     ];

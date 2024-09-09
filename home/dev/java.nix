@@ -46,4 +46,10 @@ in {
       spotbugs
     ];
   };
+
+  # makes java swing actually look half-decent for some reason
+  home.sessionVariables = {
+    _JAVA_AWT_WM_NONREPARENTING = 1;
+    _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+  };
 }
