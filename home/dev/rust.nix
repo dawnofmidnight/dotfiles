@@ -1,4 +1,6 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, pkgs-unstable, ... }: {
+  home.packages = with pkgs-unstable; [ bacon ];
+
   home.file.".cargo/config.toml".text = ''
     [build]
     target-dir = ".cache/cargo-target"

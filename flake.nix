@@ -15,13 +15,13 @@
   outputs = inputs @ { home-manager, lix-module, nixpkgs, nixpkgs-unstable, ... }:
   let
     system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
     pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+    special = { inherit inputs pkgs-unstable; };
   in {
     nixosConfigurations = {
       moonrise = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs pkgs-unstable; };
+        specialArgs = special;
         modules = [
           lix-module.nixosModules.default
           home-manager.nixosModules.home-manager
@@ -29,8 +29,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.dawn.imports = [ ./home/common.nix ./home/dawn.nix ];
-            home-manager.extraSpecialArgs = { inherit pkgs-unstable; };
+            home-manager.users.dawn.imports = [ ./home ./modules/home-manager ];
+            home-manager.extraSpecialArgs = special;
           }
         ];
       };

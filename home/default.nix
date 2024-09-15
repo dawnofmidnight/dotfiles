@@ -1,7 +1,16 @@
 { pkgs, ... }: {
+  imports = [
+    ./audio.nix
+    ./desktop
+    ./dev
+    ./internet.nix
+    ./shell
+  ];
+
   home = {
     username = "dawn";
     homeDirectory = "/home/dawn";
+    packages = with pkgs; [ obsidian qalculate-gtk ];
   };
 
   vcs = {
@@ -11,9 +20,9 @@
       email = "dawnofmidnight@duck.com";
     };
   };
-  
-  home.packages = with pkgs; [ obsidian ];
 
+  xdg.enable = true;
+  
   programs.home-manager.enable = true;
   home.stateVersion = "24.05";
 }

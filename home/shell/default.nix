@@ -14,6 +14,7 @@
   programs.direnv = { 
     enable = true;
     nix-direnv.enable = true;
+    config.global.hide_env_diff = true;
   };
 
   programs.fd.enable = true;
@@ -26,7 +27,10 @@
     theme = "Rosé Pine Dawn";
   };
 
-  programs.ripgrep.enable = true;
+  programs.ripgrep = {
+    enable = true;
+    arguments = [ "--no-require-git" ];
+  };
 
   programs.yazi = {
     enable = true;

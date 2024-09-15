@@ -5,6 +5,7 @@
     ./rust.nix
     ./vcs.nix
     ./vscode.nix
+    ./zed.nix
   ];
 
   home.packages = with pkgs; [ nixd ];

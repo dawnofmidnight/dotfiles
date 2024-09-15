@@ -2,16 +2,17 @@
   programs.vscode = {
     enable = true;
     package = pkgs-unstable.vscode;
-    mutableExtensionsDir = false;
+    # mutableExtensionsDir = false;
     
     extensions = (with pkgs-unstable.vscode-extensions; [
       catppuccin.catppuccin-vsc-icons
+      github.github-vscode-theme
       jnoortheen.nix-ide
       mkhl.direnv
       ms-python.python
       ms-vscode.hexeditor
       mvllow.rose-pine
-      rust-lang.rust-analyzer
+      # rust-lang.rust-analyzer
       tamasfe.even-better-toml
       usernamehw.errorlens
     ]) ++ pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
@@ -34,7 +35,7 @@
       "errorLens.messageTemplate" = "$severity = $message";
       "errorLens.messageBackgroundMode" = "message";
       "errorLens.padding" = "2px 4px";
-      "errorLens.replaceLinebreaksSymbol" = "\\";
+      "errorLens.replaceLinebreaksSymbol" = " \\ ";
       "errorLens.severityText" = [
         "error"
         "warning"
@@ -42,9 +43,17 @@
         "hint"
       ];
       "files.autoSave" = "afterDelay";
+      "files.exclude" = {
+        "**/.direnv" = true;
+        "**/.git" = true;
+        "**/.jj" = true;
+      };
       "nix.enableLanguageServer" = true;
       "nix.serverPath" = lib.getExe pkgs-unstable.nixd;
-      "workbench.colorTheme" = "Rosé Pine Dawn";
+      "[nix]"."editor.formatOnSave" = false;
+      "rust-analyzer.check.command" = "clippy";
+      # "workbench.colorTheme" = "Rosé Pine Dawn";
+      "workbench.colorTheme" = "GitHub Light Default";
       "workbench.iconTheme" = "catppuccin-latte";
     };
   };

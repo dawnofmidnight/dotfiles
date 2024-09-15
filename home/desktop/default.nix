@@ -1,12 +1,12 @@
 { config, lib, pkgs, ... }: {
-  imports = [ 
+  imports = [
     ./river.nix
     ./rofi.nix
     ./waybar.nix
     ./wlogout.nix
   ];
 
-  home.pointerCursor = {    
+  home.pointerCursor = {
     package = pkgs.rose-pine-cursor;
     name = "BreezeX-RosePineDawn-Linux";
     size = 32;

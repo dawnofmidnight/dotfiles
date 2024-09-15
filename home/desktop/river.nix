@@ -47,13 +47,13 @@ in {
         border-color-focused = "0xb4637a";
         border-color-unfocused = "0xebbcba";
 
-        # mostly derived from https://codeberg.org/river/river/src/branch/master/example/init       
+        # mostly derived from https://codeberg.org/river/river/src/branch/master/example/init
         map.normal = builtins.listToAttrs (lib.lists.flatten [
           (bind [mod shift] "Return" "spawn ${lib.getExe config.programs.kitty.package}")
           (bind [mod] "space" "spawn '${lib.getExe config.programs.rofi.package} -show drun'")
           (bind [mod shift] "space" "spawn '${lib.getExe config.programs.rofi.package} -show run'")
           (bind [mod] "z" "spawn '${lib.getExe config.programs.wlogout.package} -r 32 -c 32'")
-        
+
           (bind [mod] "q" "close")
 
           (bind [mod] "j" "focus-view next")

@@ -12,7 +12,7 @@ in {
         modules-center = [ "river/window" ];
         modules-right = [ "pulseaudio" "backlight" "network" "battery" "clock" ];
 
-        "river/tags".num-tags = 4;
+        "river/tags".num-tags = 5;
 
         "river/window".max-length = 100;
         
@@ -64,8 +64,8 @@ in {
         background: transparent;
       }
 
-      #mode  { margin-left:  10px; }
-      #clock { margin-right: 10px; }
+      #mode  { margin-left:  12px; margin-right: 8px; }
+      #clock { margin-right: 12px; }
 
       .module {
         background-color: ${colors.base};

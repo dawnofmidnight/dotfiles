@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 let
   cfg = config.vcs;
 in
@@ -36,6 +36,7 @@ in
 
     programs.jujutsu = {
       enable = true;
+      package = pkgs-unstable.jujutsu;
       settings = {
         user = { inherit (cfg.user) name email; };
         ui = {
