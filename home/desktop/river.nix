@@ -52,6 +52,7 @@ in {
           (bind [mod] "space" "spawn '${lib.getExe config.programs.rofi.package} -show drun'")
           (bind [mod shift] "space" "spawn '${lib.getExe config.programs.rofi.package} -show run'")
           (bind [mod] "z" "spawn '${lib.getExe config.programs.wlogout.package} -r 32 -c 32'")
+          (bind [mod] "s" ''spawn '${lib.getExe pkgs.wayshot} --stdout -s "$(${lib.getExe pkgs.slurp})" | wl-copy' '')
 
           (bind [mod] "q" "close")
 
@@ -107,8 +108,8 @@ in {
             (bind [mod] "0" "set-focused-tags ${allTags}")
             (bind [mod shift] "0" "set-view-tags ${allTags}")
             
-            (bind [mod] "s" "toggle-focused-tags ${scratchTag}")
-            (bind [mod shift] "s" "set-view-tags ${scratchTag}")
+            (bind [mod] "p" "toggle-focused-tags ${scratchTag}")
+            (bind [mod shift] "p" "set-view-tags ${scratchTag}")
           ])
 
           (bind [mod] "f" "toggle-float")

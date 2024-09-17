@@ -21,12 +21,6 @@
 
   programs.fzf.enable = true;
 
-  programs.kitty = {
-    enable = true;
-    font.name = "Iosevka";
-    theme = "Rosé Pine Dawn";
-  };
-
   programs.ripgrep = {
     enable = true;
     arguments = [ "--no-require-git" ];

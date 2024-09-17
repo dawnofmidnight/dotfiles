@@ -1,5 +1,13 @@
 {
   inputs = {
+    agenix.url = "github:ryantm/agenix";
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs = {
+        stable.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -9,33 +17,105 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # TODO: figure out what's going on with the insecure versions
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/58dbfcff203c098abd27059adc05e01319ab8a20";
   };
 
-  outputs = inputs @ { home-manager, lix-module, nixpkgs, nixpkgs-unstable, ... }:
+  outputs = inputs @ { agenix, colmena, home-manager, lix-module, nixpkgs, nixpkgs-unstable, ... }:
   let
     system = "x86_64-linux";
-    pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+    pkgs-unstable = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
+
+    tailscale-hosts = {
+      moonrise = "100.123.243.24";
+      sunset = "";
+    };
 
     util = import ./util.nix;
-    special = { inherit inputs pkgs-unstable util; };
-  in {
-    nixosConfigurations = {
-      moonrise = nixpkgs.lib.nixosSystem {
-        inherit system;
+    special = { inherit inputs pkgs-unstable system tailscale-hosts util; };
+
+    pin-nixpkgs = {
+      nix = {
+        registry = {
+          pkgs.flake = inputs.nixpkgs;
+          pkgs-unstable.flake = inputs.nixpkgs-unstable;
+        };
+
+        settings = {
+          experimental-features = [ "flakes" "nix-command" "pipe-operator" ];
+          auto-optimise-store = true;
+        };
+
+        gc = {
+          automatic = true;
+          options = "--delete-older-than 7d";
+        };
+      };
+    };
+
+    colmena-config = {
+      meta = {
+        nixpkgs = pkgs;
         specialArgs = special;
-        modules = [
+      };
+
+      defaults = {
+        imports = [
+          agenix.nixosModules.default
           lix-module.nixosModules.default
           home-manager.nixosModules.home-manager
-          ./nixos
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.dawn.imports = [ ./home ./modules/home-manager ];
-            home-manager.extraSpecialArgs = special;
-          }
+          pin-nixpkgs
+          ./hive/common.nix
+        ];
+
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = special;
+        };
+      };
+
+      moonrise = {
+        imports = [ ./hive/moonrise ];
+        deployment = {
+          allowLocalDeployment = true;
+          targetHost = null;
+        };
+        home-manager.users.dawn.imports = [
+          ./home
+          ./home/moonrise.nix
+          ./modules/home-manager
         ];
       };
+
+      sunset = {
+        imports = [ ./hive/sunset.nix ];
+        deployment = {
+          allowLocalDeployment = false;
+          targetHost = "167.71.187.6";
+        };
+        home-manager.users.dawn.imports = [
+          ./home
+          ./home/sunset.nix
+          ./modules/home-manager
+        ];
+      };
+    };
+
+    colmena-hive = colmena.lib.makeHive colmena-config;
+  in {
+    colmena = colmena-config;
+
+    nixosConfigurations = {
+      inherit (colmena-hive.nodes) moonrise sunset;
     };
   };
 }

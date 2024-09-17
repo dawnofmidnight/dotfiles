@@ -1,4 +1,66 @@
-{ config, pkgs, pkgs-unstable, ... }: {
+{ config, inputs, pkgs, system, ... }: {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
+  environment.systemPackages = [
+    inputs.agenix.packages.${system}.default
+    inputs.colmena.defaultPackage.${system}
+  ];
+
+  boot = {
+    # lg gram drivers require newer kernel
+    kernelPackages = pkgs.linuxPackages_6_10;
+    loader = {    
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      grub = {
+        enable = true;
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = true;
+      };
+    };
+  };
+
+  networking = {
+    networkmanager.enable = true;
+    hostName = "moonrise";
+  };
+
+  hardware = {
+    opengl.enable = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+      settings.General.Experimental = true;
+    };
+  };
+
+  services.blueman.enable = true;
+
+  security.polkit.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
+    jack.enable = true;
+    pulse.enable = true;
+  };
+
+  programs.light.enable = true;
+
+  services.printing.enable = true;
+
+  # swaylock won't unlock correctly if this isn't here
+  security.pam.services.swaylock = {};
+
   programs.dconf.enable = true;
 
   services.greetd = {                                                      
@@ -27,29 +89,6 @@
   };
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
-  services.tailscale = {
-    enable = true;
-    package = pkgs-unstable.tailscale;
-  };
-
-  fonts = {
-    packages = with pkgs; [
-      crimson
-      fira-sans
-      lmodern
-      (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
-      noto-fonts-emoji
-    ];
-    fontconfig = {
-      enable = true;
-      defaultFonts = {
-        serif = [ "Crimson" ];
-        sansSerif = [ "Fira Sans" ];
-        monospace = [ "Iosevka Nerd Font" ];
-      };
-    };
-  };
-
   virtualisation = {
     containers.enable = true;
     podman = {
@@ -58,13 +97,4 @@
       defaultNetwork.settings.dns_enabled = true;
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    libreoffice-qt
-    hunspell
-    hunspellDicts.en_US
-  ];
-
-  # necessary for electron apps (vscode in particular) to load in wayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }

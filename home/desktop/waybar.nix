@@ -1,4 +1,4 @@
-{ pkgs-unstable, util, ... }:
+{ lib, pkgs, util, ... }:
 let
   colors = util.colors.rose-pine-dawn;
 in {
@@ -10,12 +10,20 @@ in {
       bar = {
         layer = "top";
         modules-left = [ "river/mode" "river/tags" ];
-        modules-center = [ "river/window" ];
+        modules-center = [ "river/window" "mpris" ];
         modules-right = [ "pulseaudio" "backlight" "network" "battery" "clock" ];
 
         "river/tags".num-tags = 5;
         
-        "river/window".max-length = 100;
+        "river/window".max-length = 50;
+
+        mpris = {
+          format = "{player_icon} {dynamic}";
+          format-paused = "{status_icon} <i>{dynamic}</i>";
+          dynamic-len = 30;
+          player-icons.default = "▶";
+          status-icons.default = "⏸";
+        };
         
         pulseaudio = {
           format = "{icon} {volume}%";
@@ -30,7 +38,8 @@ in {
             portable = "";
             default = [ "" "" "" ];
           };
-          on-click = "pavucontrol";
+          on-click = lib.getExe pkgs.pavucontrol;
+          on-click-right = lib.getExe' pkgs.blueman "blueman-manager";
         };
 
         backlight = {
@@ -58,6 +67,7 @@ in {
 
     style = ''
       * {
+        font-size: 14px;
         font-family: monospace;
       }
 
