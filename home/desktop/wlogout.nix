@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, util, ... }:
 let
-  colors = (import ../../lib/colors.nix).rose-pine-dawn;
+  colors = util.colors.rose-pine-dawn;
 in {
   programs.wlogout = {
     enable = true;

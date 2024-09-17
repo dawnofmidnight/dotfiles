@@ -1,6 +1,6 @@
 {
   # https://rosepinetheme.com/palette/ingredients/#rose-pine-dawn
-  rose-pine-dawn = {
+  colors.rose-pine-dawn = {
     base          = "#faf4ed";
     surface       = "#fffaf3";
     overlay       = "#f2e9e1";

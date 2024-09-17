@@ -26,13 +26,13 @@
     };
 
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = [ "flakes" "nix-command" "pipe-operator" ];
       auto-optimise-store = true;
     };
 
     gc = {
       automatic = true;
-      options = "--delete-older-than 1w";
+      options = "--delete-older-than 7d";
     };
   };
 }

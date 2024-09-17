@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, util, ... }:
 let
   river-refresh = pkgs.writeShellApplication {
     name = "river-refresh";
@@ -32,7 +32,6 @@ in {
           } ${key}";
           value = command;
         };
-
         pow2 = n:
           if n == 1 then 2
           else if n == 0 then 1 else 2 * pow2 (n - 1);
@@ -49,7 +48,7 @@ in {
 
         # mostly derived from https://codeberg.org/river/river/src/branch/master/example/init
         map.normal = builtins.listToAttrs (lib.lists.flatten [
-          (bind [mod shift] "Return" "spawn ${lib.getExe config.programs.kitty.package}")
+          (bind [mod] "Return" "spawn ${lib.getExe config.programs.kitty.package}")
           (bind [mod] "space" "spawn '${lib.getExe config.programs.rofi.package} -show drun'")
           (bind [mod shift] "space" "spawn '${lib.getExe config.programs.rofi.package} -show run'")
           (bind [mod] "z" "spawn '${lib.getExe config.programs.wlogout.package} -r 32 -c 32'")
@@ -93,19 +92,23 @@ in {
 
           # tags
           (let
-            n' = n: toString (pow2 (n - 1));
+            n' = n: (n - 1) |> pow2 |> toString;
             range = lib.range 1 9;
           in [
             (map (n: (bind [mod] "${toString n}" "set-focused-tags ${n' n}")) range)
             (map (n: (bind [mod shift] "${toString n}" "set-view-tags ${n' n}")) range)
             (map (n: (bind [mod ctrl] "${toString n}" "toggle-focused-tags ${n' n}")) range)
-            (map (n: (bind [mod shift ctrl] "${toString n}" "set-view-tags ${n' n}")) range)
+            (map (n: (bind [mod shift ctrl] "${toString n}" "toggle-view-tags ${n' n}")) range)
           ])
           (let
             allTags = toString (pow2 32 - 1);
+            scratchTag = toString (pow2 31);
           in [
             (bind [mod] "0" "set-focused-tags ${allTags}")
-            (bind [mod] "0" "set-view-tags ${allTags}")
+            (bind [mod shift] "0" "set-view-tags ${allTags}")
+            
+            (bind [mod] "s" "toggle-focused-tags ${scratchTag}")
+            (bind [mod shift] "s" "set-view-tags ${scratchTag}")
           ])
 
           (bind [mod] "f" "toggle-float")

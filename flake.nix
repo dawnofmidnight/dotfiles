@@ -16,7 +16,9 @@
   let
     system = "x86_64-linux";
     pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
-    special = { inherit inputs pkgs-unstable; };
+
+    util = import ./util.nix;
+    special = { inherit inputs pkgs-unstable util; };
   in {
     nixosConfigurations = {
       moonrise = nixpkgs.lib.nixosSystem {

@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, util, ... }:
 let
   inherit (config.lib.formats.rasi) mkLiteral;
-  colors = (import ../../lib/colors.nix).rose-pine-dawn;
+  colors = util.colors.rose-pine-dawn;
 in {
   programs.rofi = {
     enable = true;

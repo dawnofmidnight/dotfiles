@@ -1,5 +1,6 @@
+{ pkgs-unstable, util, ... }:
 let
-  colors = (import ../../lib/colors.nix).rose-pine-dawn;
+  colors = util.colors.rose-pine-dawn;
 in {
   programs.waybar = {
     enable = true;
@@ -13,7 +14,7 @@ in {
         modules-right = [ "pulseaudio" "backlight" "network" "battery" "clock" ];
 
         "river/tags".num-tags = 5;
-
+        
         "river/window".max-length = 100;
         
         pulseaudio = {
@@ -77,7 +78,8 @@ in {
       }
 
       #tags {
-        margin: 8px 0 0 0;
+        margin-left: 0;
+        margin-right: 0;
       }
 
       #tags button {
