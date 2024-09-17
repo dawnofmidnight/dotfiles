@@ -102,7 +102,7 @@ in {
             (map (n: (bind [mod shift ctrl] "${toString n}" "set-view-tags ${n' n}")) range)
           ])
           (let
-            allTags = toString (pow2 32);
+            allTags = toString (pow2 32 - 1);
           in [
             (bind [mod] "0" "set-focused-tags ${allTags}")
             (bind [mod] "0" "set-view-tags ${allTags}")
