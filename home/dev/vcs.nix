@@ -20,10 +20,10 @@ in
       enable = true;
       userName = cfg.user.name;
       userEmail = cfg.user.email;
-      ignores = ["/.direnv/" "/result" ".envrc" ];
+      ignores = [".direnv/" "/result" ".envrc" ];
       extraConfig = {
         core.editor = "${lib.getExe pkgs.helix}";
-        init.defaultBranch = "main";
+        init.defaultBranch = "trunk";
         push.autoSetupRemote = true;
         gpg.format = "ssh";
         user.signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";

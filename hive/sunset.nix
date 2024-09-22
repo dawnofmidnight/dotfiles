@@ -3,12 +3,13 @@
     "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
   ];
 
+  virtualisation.digitalOceanImage.compressionMethod = "bzip2";
+
   networking.hostName = "sunset";
 
-  swapDevices = [{
-    device = "/swap/swapfile";
-    size = 1024 * 2;
-  }];
-
-  virtualisation.digitalOceanImage.compressionMethod = "bzip2";
+  services.freshrss = {
+    enable = true;
+    authType = "none";
+    baseUrl = "sunset";
+  };
 }

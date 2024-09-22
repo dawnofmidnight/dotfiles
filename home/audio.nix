@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, pkgs-unstable, ... }: {
   home.packages = with pkgs; [ mpc-cli yt-dlp ];
 
   programs.beets = {
@@ -39,8 +39,10 @@
   };
 
   services.mpd-mpris.enable = true;
-  programs.ncmpcpp.enable = true;
-    
+  programs.ncmpcpp = {
+    enable = true;
+    package = pkgs-unstable.ncmpcpp;
+  };
   services.mpris-proxy.enable = true;
   services.playerctld.enable = true;
 }

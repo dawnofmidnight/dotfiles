@@ -1,4 +1,4 @@
-{ pkgs-unstable, ... }: {
+{ lib, pkgs-unstable, ... }: {
   programs.helix = {
     enable = true;
     package = pkgs-unstable.helix;
@@ -27,9 +27,17 @@
       };
     };
 
-    languages.language = [{
-      name = "sql";
-      indent = { tab-width = 4; unit = "  "; };
-    }];
+    languages = {
+      language = [
+        {
+          name = "nix";
+          language-servers = [ (lib.getExe pkgs-unstable.nixd) ];
+        }
+        {
+          name = "sql";
+          indent = { tab-width = 4; unit = "  "; };
+        }
+      ];
+    };
   };
 }

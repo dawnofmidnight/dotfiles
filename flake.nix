@@ -17,8 +17,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    # TODO: figure out what's going on with the insecure versions
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/58dbfcff203c098abd27059adc05e01319ab8a20";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = inputs @ { agenix, colmena, home-manager, lix-module, nixpkgs, nixpkgs-unstable, ... }:
@@ -50,8 +49,9 @@
         };
 
         settings = {
-          experimental-features = [ "flakes" "nix-command" "pipe-operator" ];
           auto-optimise-store = true;
+          experimental-features = [ "flakes" "nix-command" "pipe-operator" ];
+          trusted-users = [ "root" "dawn" ];
         };
 
         gc = {
@@ -100,7 +100,7 @@
         imports = [ ./hive/sunset.nix ];
         deployment = {
           allowLocalDeployment = false;
-          targetHost = "167.71.187.6";
+          targetHost = "165.22.32.14";
         };
         home-manager.users.dawn.imports = [
           ./home
@@ -112,6 +112,8 @@
 
     colmena-hive = colmena.lib.makeHive colmena-config;
   in {
+    devShells.${system} = import ./shells.nix { inherit pkgs pkgs-unstable; };
+  
     colmena = colmena-config;
 
     nixosConfigurations = {

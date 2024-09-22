@@ -9,8 +9,10 @@
   ];
 
   boot = {
+    consoleLogLevel = 0;
     # lg gram drivers require newer kernel
     kernelPackages = pkgs.linuxPackages_6_10;
+    kernelParams = [ "quiet" ];
     loader = {    
       efi = {
         canTouchEfiVariables = true;
@@ -88,6 +90,8 @@
     };
   };
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+  
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   virtualisation = {
     containers.enable = true;

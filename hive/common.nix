@@ -32,13 +32,13 @@ in {
     };
   };
 
-  age.secrets.tailscale-auth-key.file = ./tailscale-auth-key.age;
-  services.tailscale = {
-    enable = true;
-    package = pkgs-unstable.tailscale;
-    authKeyFile = config.age.secrets.tailscale-auth-key.path;
-    extraUpFlags = [ "--ssh" ];
-  };
+  # age.secrets.tailscale-auth-key.file = ./tailscale-auth-key.age;
+  # services.tailscale = {
+    # enable = true;
+    # package = pkgs-unstable.tailscale;
+    # authKeyFile = config.age.secrets.tailscale-auth-key.path;
+    # extraUpFlags = [ "--ssh" "--operator=dawn" ];
+  # };
 
   time.timeZone = "America/New_York";
   i18n = {

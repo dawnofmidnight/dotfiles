@@ -8,11 +8,13 @@
       catppuccin.catppuccin-vsc-icons
       github.github-vscode-theme
       jnoortheen.nix-ide
+      maximedenes.vscoq
       mkhl.direnv
       ms-python.python
       ms-vscode.hexeditor
       mvllow.rose-pine
-      # rust-lang.rust-analyzer
+      nvarner.typst-lsp
+      rust-lang.rust-analyzer
       tamasfe.even-better-toml
       usernamehw.errorlens
     ]) ++ pkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [
@@ -52,7 +54,9 @@
       "nix.serverPath" = lib.getExe pkgs-unstable.nixd;
       "[nix]"."editor.formatOnSave" = false;
       "rust-analyzer.check.command" = "clippy";
-      # "workbench.colorTheme" = "Rosé Pine Dawn";
+      "typst-lsp.exportPdf" = "never";
+      "typst-lsp.serverPath" = lib.getExe pkgs-unstable.typst-lsp;
+      "vscoq.proof.mode" = 1;
       "workbench.colorTheme" = "GitHub Light Default";
       "workbench.iconTheme" = "catppuccin-latte";
     };
