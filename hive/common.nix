@@ -1,4 +1,4 @@
-{ config, pkgs-unstable, ... }:
+{ config, lib, pkgs-unstable, ... }:
 let
   ssh-keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKMLmbjFirrZ6T8/Uj96/atn39JwpnEZJOZ5TufBtVMQ dawn@moonrise"
@@ -17,13 +17,15 @@ in {
     users.dawn = {
       isNormalUser = true;
       home = "/home/dawn";
-      extraGroups = [ "networkmanager" "video" "wheel" ];
+      extraGroups = [ "networkmanager" "wheel" ];
       shell = pkgs-unstable.nushell;
       hashedPassword = "$y$j9T$O7TCsYTix3J1Fu2PCZ/Pp1$iOIT6e2tn2kdZNRz09UIy1QgaoWbwBNczZItsDuiAw9";
       openssh.authorizedKeys.keys = ssh-keys;
     };
   };
 
+  environment.sessionVariables.EDITOR = lib.getExe pkgs-unstable.helix;
+  
   services.openssh = {
     enable = true;
     settings = {
@@ -32,13 +34,14 @@ in {
     };
   };
 
-  # age.secrets.tailscale-auth-key.file = ./tailscale-auth-key.age;
-  # services.tailscale = {
-    # enable = true;
-    # package = pkgs-unstable.tailscale;
-    # authKeyFile = config.age.secrets.tailscale-auth-key.path;
-    # extraUpFlags = [ "--ssh" "--operator=dawn" ];
-  # };
+  age.secrets.tailscale-auth-key.file = ./tailscale-auth-key.age;
+  services.tailscale = {
+    enable = true;
+    package = pkgs-unstable.tailscale;
+    authKeyFile = config.age.secrets.tailscale-auth-key.path;
+    extraUpFlags = [ "--ssh" "--operator=dawn" ];
+    permitCertUid = "caddy";
+  };
 
   time.timeZone = "America/New_York";
   i18n = {

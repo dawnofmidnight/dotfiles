@@ -11,6 +11,7 @@
         rulers = [ 80 ];
         bufferline = "always";
         color-modes = true;
+        soft-wrap.enable = true;
         auto-save = {
           focus-lost = true;
           after-delay.enable = true;

@@ -24,13 +24,14 @@
       music = "${config.home.homeDirectory}/music";
     };
   };
-  
+
   home.packages = with pkgs; [
     hunspell
     hunspellDicts.en_US
     just
     libreoffice-qt
     obsidian
+    libqalculate
     qalculate-gtk
     sage
   ];

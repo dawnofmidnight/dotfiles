@@ -13,7 +13,7 @@ in {
         modules-center = [ "river/window" "mpris" ];
         modules-right = [ "pulseaudio" "backlight" "network" "battery" "clock" ];
 
-        "river/tags".num-tags = 5;
+        "river/tags".num-tags = 4;
         
         "river/window".max-length = 50;
 

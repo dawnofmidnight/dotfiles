@@ -8,4 +8,5 @@ let
   hosts = [ moonrise sunset ];
 in {
   "hive/tailscale-auth-key.age".publicKeys = hosts;
+  "hive/sunset/caddy-env.age".publicKeys = [ sunset ];
 }

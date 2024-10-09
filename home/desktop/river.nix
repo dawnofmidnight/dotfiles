@@ -115,19 +115,19 @@ in {
           (bind [mod] "f" "toggle-float")
           (bind [mod shift] "f" "toggle-fullscreen")
 
-          (bind [mod] "up" "send-layout-cmd rivertile 'main-location top'")
+          (bind [mod] "up"    "send-layout-cmd rivertile 'main-location top'")
           (bind [mod] "right" "send-layout-cmd rdivertile 'main-location right'")
-          (bind [mod] "down" "send-layout-cmd rivertile 'main-location bottom'")
-          (bind [mod] "left" "send-layout-cmd rivertile 'main-location left'")
+          (bind [mod] "down"  "send-layout-cmd rivertile 'main-location bottom'")
+          (bind [mod] "left"  "send-layout-cmd rivertile 'main-location left'")
         ]);
 
         map."-repeat".normal = builtins.listToAttrs [
-          (bind [] "XF86AudioRaiseVolume" "spawn 'wpctl set-volume -l 1.0 @DEFAULT_SINK@ 1%+'")
-          (bind [] "XF86AudioLowerVolume" "spawn 'wpctl set-volume -l 1.0 @DEFAULT_SINK@ 1%-'")
-          (bind [] "XF86AudioMute" "spawn 'wpctl set-mute @DEFAULT_SINK@ toggle'")
+          (bind [] "XF86AudioRaiseVolume" "spawn '${lib.getExe' pkgs.wireplumber "wpctl"} set-volume -l 1.0 @DEFAULT_SINK@ 1%+'")
+          (bind [] "XF86AudioLowerVolume" "spawn '${lib.getExe' pkgs.wireplumber "wpctl"} set-volume -l 1.0 @DEFAULT_SINK@ 1%-'")
+          (bind [] "XF86AudioMute"        "spawn '${lib.getExe' pkgs.wireplumber "wpctl"} set-mute @DEFAULT_SINK@ toggle'")
 
-          (bind [] "XF86MonBrightnessUp" "spawn 'light -A 5'")
-          (bind [] "XF86MonBrightnessDown" "spawn 'light -U 5'")
+          (bind [] "XF86MonBrightnessUp"   "spawn '${lib.getExe pkgs.brightnessctl} set 2%+'")
+          (bind [] "XF86MonBrightnessDown" "spawn '${lib.getExe pkgs.brightnessctl} set 2%-'")
         ];
 
         map-pointer.normal = builtins.listToAttrs (lib.lists.flatten [

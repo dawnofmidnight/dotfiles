@@ -20,26 +20,23 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs @ { agenix, colmena, home-manager, lix-module, nixpkgs, nixpkgs-unstable, ... }:
+  outputs = inputs @ { self, agenix, colmena, home-manager, lix-module, nixpkgs, nixpkgs-unstable }:
   let
     system = "x86_64-linux";
-
+    
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
+      overlays = [ self.overlays.default ];
     };
+
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
 
-    tailscale-hosts = {
-      moonrise = "100.123.243.24";
-      sunset = "";
-    };
-
     util = import ./util.nix;
-    special = { inherit inputs pkgs-unstable system tailscale-hosts util; };
+    special = { inherit inputs pkgs-unstable system util; };
 
     pin-nixpkgs = {
       nix = {
@@ -97,7 +94,7 @@
       };
 
       sunset = {
-        imports = [ ./hive/sunset.nix ];
+        imports = [ ./hive/sunset ];
         deployment = {
           allowLocalDeployment = false;
           targetHost = "165.22.32.14";
@@ -113,9 +110,9 @@
     colmena-hive = colmena.lib.makeHive colmena-config;
   in {
     devShells.${system} = import ./shells.nix { inherit pkgs pkgs-unstable; };
-  
+    overlays.default = import ./overlays;
+    
     colmena = colmena-config;
-
     nixosConfigurations = {
       inherit (colmena-hive.nodes) moonrise sunset;
     };

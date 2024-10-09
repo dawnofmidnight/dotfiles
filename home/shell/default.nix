@@ -38,6 +38,7 @@
 
   home.packages = with pkgs; [
     just
+    jq
     numbat
     patchelf
     tokei

@@ -3,9 +3,10 @@
     ./hardware-configuration.nix
   ];
 
-  environment.systemPackages = [
+   environment.systemPackages = [
     inputs.agenix.packages.${system}.default
     inputs.colmena.defaultPackage.${system}
+    pkgs.brightnessctl
   ];
 
   boot = {
@@ -58,8 +59,6 @@
 
   programs.light.enable = true;
 
-  services.printing.enable = true;
-
   # swaylock won't unlock correctly if this isn't here
   security.pam.services.swaylock = {};
 
@@ -92,6 +91,7 @@
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
   
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = "auto";
 
   virtualisation = {
     containers.enable = true;

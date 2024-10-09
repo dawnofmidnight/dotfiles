@@ -1,7 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs-unstable, ... }: {
   programs.chromium = {
     enable = true;
-    package = pkgs.google-chrome;
+    package = pkgs-unstable.google-chrome;
   };
   programs.firefox.enable = true;
 

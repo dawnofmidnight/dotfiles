@@ -3,12 +3,12 @@ let
   eclipse-plugins = {
     checkstyle = pkgs-unstable.eclipses.plugins.buildEclipseUpdateSite rec {
       name = "checkstyle";
-      version = "10.17.0.202408021402";
+      version = "10.18.1.202409031410";
       src = pkgs-unstable.fetchFromGitHub {
         owner = "checkstyle";
         repo = "eclipse-cs-update-site";
-        rev = "5d23b35192d118bd32f79c8e95771a0aa9020a3d";
-        hash = "sha256-rhNlDm1iwAZ9fDzI+gnFikyB+iezuOqRgMIZc9IpWhY=";
+        rev = "22a4546140dca1526c095f212450cd41308ef50a";
+        hash = "sha256-0FNJP/TOAXMvASRfYokISCq4gbMUz0Ah/GFmjG42vuc=";
         sparseCheckout = [ "releases/${version}" ];
       };
       sourceRoot = "${src.name}/releases/${version}";
@@ -16,11 +16,11 @@ let
 
     pmd = pkgs-unstable.eclipses.plugins.buildEclipseUpdateSite {
       name = "pmd";
-      version = "7.4.0";
+      version = "7.6.0";
       src = pkgs-unstable.fetchzip {
         stripRoot = false;
-        url = "https://github.com/pmd/pmd-eclipse-plugin/releases/download/7.4.0.v20240726-0845-r/net.sourceforge.pmd.eclipse.p2updatesite-7.4.0.v20240726-0845-r.zip";
-        hash = "sha256-IXizik45wbI9aUI/aS1eOs1H6quI/ubiKndc+b+4deg=";
+        url = "https://github.com/pmd/pmd-eclipse-plugin/releases/download/7.6.0.v20240927-1030-r/net.sourceforge.pmd.eclipse.p2updatesite-7.6.0.v20240927-1030-r.zip";
+        hash = "sha256-WxxqEIOinNaXK/fxyBNiSVHfNt2vUH2/KL3ust1lc0Q=";
       };
     };
 
@@ -35,7 +35,7 @@ let
     };
   };
 in {
-  home.packages = with pkgs-unstable; [ jdk21 ];
+  home.packages = with pkgs-unstable; [ jdk21 jetbrains.idea-ultimate ];
 
   programs.eclipse = {
     enable = true;
