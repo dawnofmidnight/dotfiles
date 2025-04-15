@@ -113,16 +113,13 @@
           modules = [
             ./hive/common
             ./hive/sunset
-            {
-              nix.package = pkgs-unstable-aarch64.lix;
-              home-manager.extraSpecialArgs = specialArgs;
-            }
+            lix.nixosModules.default
+            { home-manager.extraSpecialArgs = specialArgs; }
           ];
           specialArgs = generalSpecialArgs // {
             pkgs-unstable = pkgs-unstable-aarch64;
           };
         };
-
       };
     };
 }
