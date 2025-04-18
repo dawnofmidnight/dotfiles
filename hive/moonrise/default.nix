@@ -10,7 +10,6 @@
     ./core.nix
     ./hardware-configuration.nix
     ./services.nix
-    inputs.nix-index-database.nixosModules.nix-index
   ];
 
   environment.systemPackages = [
@@ -29,8 +28,6 @@
     };
     nixos.enable = false;
   };
-
-  programs.nix-index-database.comma.enable = true;
 
   home-manager.users.dawn = {
     dawn = {
