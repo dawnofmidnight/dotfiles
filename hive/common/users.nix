@@ -1,9 +1,12 @@
 { config, util, ... }:
+let
+  keys = util.ssh-keys.hosts ++ util.ssh-keys.keys ++ util.ssh-keys.users;
+in
 {
   users = {
     mutableUsers = false;
     users = {
-      root.openssh.authorizedKeys.keys = util.ssh-keys.users ++ util.ssh-keys.hosts;
+      root.openssh.authorizedKeys.keys = keys;
 
       dawn = {
         isNormalUser = true;
@@ -15,7 +18,7 @@
         ];
         shell = config.home-manager.users.dawn.dawn.shell.default.package;
         hashedPassword = "$6$uoZ.rTXg6dTjo2YX$.jM2IUykJuOeBxMqQyfG6qlopcj9zh6LWFb2RrQdarwNaigZm3gXI3Ew8FY03EHivOfLMNlDWUaJ8p9T4F/Tn1";
-        openssh.authorizedKeys.keys = util.ssh-keys.users ++ util.ssh-keys.hosts;
+        openssh.authorizedKeys.keys = keys;
       };
     };
   };

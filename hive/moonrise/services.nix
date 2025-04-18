@@ -1,5 +1,16 @@
 { config, ... }:
 {
+  programs.ssh = {
+    enableAskPassword = true;
+    startAgent = true;
+  };
+
+  # seahorse provides an askpass helper that is necessary for when programs
+  # such as `jj` need a password in a subprocess that doesn't have terminal
+  # access. seahorse was chosen simply because it was the first attempt that
+  # worked.
+  programs.seahorse.enable = true;
+
   services.syncthing = {
     dataDir = config.users.users.dawn.home;
     configDir = "${config.home-manager.users.dawn.xdg.configHome}/syncthing";

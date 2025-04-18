@@ -1,61 +1,24 @@
+{ config, pkgs-unstable, ... }:
 {
-  config,
-  pkgs,
-  pkgs-unstable,
-  ...
-}:
-{
-  networking = {
-    # nameservers = [
-    #   "127.0.0.1"
-    #   "::1"
-    # ];
-    networkmanager = {
-      enable = true;
-      # dns = "none";
-      # NOTE: to disable for a specific network, run `nmcli connection modify
-      #       <ssid> wifi.cloned-mac-address permanent` (or replace
-      #       `permanent` with `stable`, `stable-ssid`, etc. as necessary)
-      # TODO: figure how to edit `/etc/NetworkManager/system-connections` to do
-      #       that declaratively
-      wifi.macAddress = "random";
-    };
+  networking.networkmanager = {
+    enable = true;
+    # NOTE: to disable for a specific network, run `nmcli connection modify
+    #       <ssid> wifi.cloned-mac-address permanent` (or replace
+    #       `permanent` with `stable`, `stable-ssid`, etc. as necessary)
+    # TODO: figure how to edit `/etc/NetworkManager/system-connections` to do
+    #       that declaratively
+    wifi.macAddress = "random";
   };
-
-  services.dnscrypt-proxy2 = {
-    # enable = true;
-    upstreamDefaults = true;
-    settings = {
-      server_names = [
-        "quad9-doh-ip4-port443-filter-pri"
-        "cloudflare"
-      ];
-      # forwarding_rules = pkgs.writeText "forwarding-rules.txt" "ncsu.edu $DHCP,152.1.14.69,152.1.14.14,152.1.14.12";
-      forwarding_rules = pkgs.writeText "forwarding-rules.txt" "ncsu.edu $DHCP";
-      dnscrypt_servers = false;
-      doh_servers = true;
-      require_dnssec = true;
-      require_nolog = true;
-      sources.public-resolvers = {
-        urls = [
-          "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
-          "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
-        ];
-        minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-        cache_file = "/var/lib/dnscrypt-proxy/public-resolvers.md";
-      };
-    };
-  };
-  systemd.services.dnscrypt-proxy2.serviceConfig.StateDirectory = "dnscrypt-proxy";
 
   services.earlyoom.enable = true;
 
-  programs.ssh.startAgent = true;
   services.openssh = {
     enable = true;
     settings = {
-      PermitRootLogin = "prohibit-password";
       PasswordAuthentication = false;
+      PermitRootLogin = "prohibit-password";
+      PubkeyAuthentication = "yes";
+      PubkeyAuthOptions = "verify-required";
     };
   };
 

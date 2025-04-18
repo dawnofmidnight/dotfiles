@@ -32,7 +32,7 @@ in
         init.defaultBranch = "trunk";
         push.autoSetupRemote = true;
         signing.format = "ssh";
-        user.signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        user.signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519_sk.pub";
       };
       difftastic = {
         enable = true;
@@ -51,14 +51,14 @@ in
             "$left"
             "$right"
             "--color=always"
-            # "--display=inline"
           ];
           editor = lib.getExe config.programs.helix.package;
           merge-editor = "vscode";
         };
         signing = {
+          behavior = "drop";
           backend = "ssh";
-          key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+          key = "${config.home.homeDirectory}/.ssh/id_ed25519_sk.pub";
         };
         git.sign-on-push = true;
       };
