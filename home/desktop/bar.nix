@@ -157,6 +157,10 @@ in
         margin: 0 4px;
       }
 
+      #workspaces button.empty {
+        color: ${colors.muted};
+      }
+
       #tags button:hover, #workspaces button:hover {
         background: none;
         border: none;
@@ -180,15 +184,6 @@ in
 
       #tags button.focused:hover, #workspaces button.active:hover {
         background-color: #e37a76;
-      }
-
-      #workspaces button.empty {
-        color: ${colors.muted};
-      }
-
-      #workspaces button.active.empty {
-        color: ${colors.muted};
-        background-color: ${colors.rose};
       }
 
       #tags button:first-child, #workspaces button:first-child { margin-left:  0; }
