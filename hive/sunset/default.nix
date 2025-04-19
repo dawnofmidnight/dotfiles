@@ -16,6 +16,9 @@
     vcs.enable = true;
   };
 
+  # https://wiki.nixos.org/wiki/Distributed_build#Using_remote_builders_as_substituters
+  nix.settings.secret-key-files = "/var/cache-priv-key.pem";
+
   users = {
     users.remote-build = {
       isNormalUser = true;

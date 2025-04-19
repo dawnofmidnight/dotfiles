@@ -157,6 +157,16 @@
       }
     ];
     distributedBuilds = true;
+    settings = {
+      substituters = [
+        "https://cache.nixos.org?priority=1"
+        "ssh-ng://remote-build@152.7.58.97?priority=2&ssh-key=/etc/ssh/remote-build"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "sunset:oAwaEDVfaIkBngZ8/5R+8Oh/e1/XZB1lLWt3qWyat3w="
+      ];
+    };
   };
 
   xdg.portal = {
