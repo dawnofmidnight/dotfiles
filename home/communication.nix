@@ -20,6 +20,6 @@ in
       profiles.main.isDefault = true;
     };
 
-    home.packages = lib.lists.optional cfg.signal pkgs-unstable.signal-desktop-source;
+    home.packages = lib.lists.optional cfg.signal pkgs-unstable.signal-desktop;
   };
 }
