@@ -16,6 +16,9 @@
   # worked.
   programs.seahorse.enable = true;
 
+  services.auto-cpufreq.enable = true;
+  services.thermald.enable = true;
+
   services.syncthing = {
     dataDir = config.users.users.dawn.home;
     configDir = "${config.home-manager.users.dawn.xdg.configHome}/syncthing";
