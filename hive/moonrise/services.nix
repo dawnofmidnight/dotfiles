@@ -1,5 +1,10 @@
-{ config, ... }:
+{ config, pkgs-unstable, ... }:
 {
+  programs.nh = {
+    enable = true;
+    package = pkgs-unstable.nh;
+  };
+
   programs.ssh = {
     enableAskPassword = true;
     startAgent = true;
