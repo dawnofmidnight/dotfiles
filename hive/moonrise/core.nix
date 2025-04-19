@@ -142,10 +142,11 @@
     buildMachines = [
       {
         hostName = "152.7.58.97";
+        maxJobs = 4;
+        protocol = "ssh-ng";
         sshUser = "remote-build";
         sshKey = "/etc/ssh/remote-build";
         system = "aarch64-linux";
-        maxJobs = 4;
         supportedFeatures = [
           "benchmark"
           "big-parallel"
