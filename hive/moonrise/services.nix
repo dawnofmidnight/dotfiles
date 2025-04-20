@@ -19,6 +19,11 @@
   services.auto-cpufreq.enable = true;
   services.thermald.enable = true;
 
+  services.earlyoom = {
+    enable = true;
+    enableNotifications = true;
+  };
+
   services.syncthing = {
     dataDir = config.users.users.dawn.home;
     configDir = "${config.home-manager.users.dawn.xdg.configHome}/syncthing";
