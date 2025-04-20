@@ -9,7 +9,8 @@
   imports = [ inputs.niri.homeModules.niri ];
 
   programs.niri = lib.mkIf (config.dawn.desktop.wm.which == "niri") {
-    package = pkgs.niri-stable;
+    # TODO: screenshot show-pointer is needed; get rid of this after v25.02
+    package = pkgs.niri-unstable;
 
     settings = {
       environment = {
@@ -46,6 +47,7 @@
         { command = [ (lib.getExe inputs.niri.packages.${pkgs.system}.xwayland-satellite-stable) ]; }
         { command = [ (lib.getExe config.programs.waybar.package) ]; }
       ] ++ lib.lists.optional config.dawn.communication.thunderbird { command = [ "thunderbird" ]; };
+      screenshot-path = "${config.home.homeDirectory}/screenshots/screenshot_%Y-%m-%d_%H:%M:%S.png";
 
       layout =
         let
@@ -134,18 +136,17 @@
           lib.lists.flatten [
             (bind [ mod ] "Q" "close-window")
             (bind [ mod ] "Slash" "show-hotkey-overlay")
+            (bind [ mod shift ] "E" "quit")
 
             (bindFull [ mod ] "Return" "spawn" (lib.getExe config.dawn.terminal.default.package) { })
             (bindFull [ mod ] "Space" "spawn" (lib.getExe config.dawn.launcher.package) { })
-            (lib.lists.optionals config.dawn.desktop.logout (
-              bindFull [ mod ] "Z" "spawn" [
-                (lib.getExe config.programs.wlogout.package)
-                "-r"
-                "32"
-                "-c"
-                "32"
-              ] { }
-            ))
+            (bindFull [ mod ] "Z" "spawn" [
+              (lib.getExe config.programs.wlogout.package)
+              "-r"
+              "32"
+              "-c"
+              "32"
+            ] { })
 
             (bindHorizontal [ mod ] "focus-column-or-monitor-$")
             (bindVertical [ mod ] "focus-window-or-workspace-$")
@@ -193,7 +194,7 @@
             (bind [ mod shift ] "V" "switch-focus-between-floating-and-tiling")
             (bind [ mod ] "W" "toggle-column-tabbed-display")
 
-            (bind [ ] "Print" "screenshot")
+            (bindFull [ ] "Print" "screenshot" { show-pointer = false; } { })
             (bind [ ctrl ] "Print" "screenshot-window")
             (bind [ alt ] "Print" "screenshot-screen")
 

@@ -7,13 +7,10 @@
 }:
 let
   cfg = config.dawn.desktop;
+  enable = cfg.wm.which != null;
 in
 {
   options.dawn.desktop = {
-    idling = lib.options.mkEnableOption "idle actions";
-    lockscreen = lib.options.mkEnableOption "the lock screen";
-    logout = lib.options.mkEnableOption "the logout menu";
-    notifications = lib.options.mkEnableOption "notifications";
     wallpaper = {
       regular = lib.options.mkOption {
         type = lib.types.nullOr lib.types.path;
@@ -30,92 +27,93 @@ in
     home.packages = [ pkgs.wl-clipboard ];
 
     services.swayidle = {
-      enable = cfg.idling;
-      events = lib.lists.optional cfg.lockscreen {
-        event = "before-sleep";
-        command = "${lib.getExe config.programs.swaylock.package} -fF";
-      };
-      timeouts =
-        [
-          (
-            if cfg.wm.which == "river" then
-              {
-                timeout = 240;
-                command = "${lib.getExe pkgs.wlr-randr} --output eDP-1 --off";
-                resumeCommand = "${lib.getExe pkgs.wlr-randr} --output eDP-1 --on";
-              }
-            else if cfg.wm.which == "niri" then
-              {
-                timeout = 240;
-                command = "${lib.getExe config.programs.niri.package} msg action power-off-monitors";
-                resumeCommand = "${lib.getExe config.programs.niri.package} msg action power-on-monitors";
-              }
-            else
-              [ ]
-          )
-          {
-            timeout = 450;
-            command = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
-          }
-        ]
-        ++ lib.lists.optional cfg.lockscreen {
+      inherit enable;
+      events = [
+        {
+          event = "before-sleep";
+          command = "${lib.getExe config.programs.swaylock.package} -fF";
+        }
+      ];
+      timeouts = [
+        (
+          if cfg.wm.which == "river" then
+            {
+              timeout = 240;
+              command = "${lib.getExe pkgs.wlr-randr} --output eDP-1 --off";
+              resumeCommand = "${lib.getExe pkgs.wlr-randr} --output eDP-1 --on";
+            }
+          else if cfg.wm.which == "niri" then
+            {
+              timeout = 240;
+              command = "${lib.getExe config.programs.niri.package} msg action power-off-monitors";
+              resumeCommand = "${lib.getExe config.programs.niri.package} msg action power-on-monitors";
+            }
+          else
+            [ ]
+        )
+        {
+          timeout = 450;
+          command = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
+        }
+        {
           timeout = 300;
           command = "${lib.getExe config.programs.swaylock.package} -fF";
-        };
+        }
+      ];
     };
-    systemd.user.services.swayidle.Unit.After = lib.mkIf cfg.idling [ "graphical-session.target" ];
+    systemd.user.services.swayidle.Unit.After = lib.mkIf enable [ "graphical-session.target" ];
 
     programs.swaylock = {
-      enable = cfg.lockscreen;
+      inherit enable;
       settings.image = "${cfg.wallpaper.blurred}";
     };
 
-    programs.wlogout =
-      let
-        colors = util.colors.rose-pine-dawn;
-      in
-      {
-        enable = cfg.logout;
-        layout = [
-          {
-            label = "lock";
-            action = lib.getExe config.programs.swaylock.package;
-            text = "lock (l)";
-            keybind = "l";
-          }
-          {
-            label = "suspend";
-            action = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
-            text = "suspend (u)";
-            keybind = "u";
-          }
-          {
-            label = "hibernate";
-            action = "${lib.getExe' pkgs.systemd "systemctl"} hibernate";
-            text = "hibernate (h)";
-            keybind = "h";
-          }
-          {
-            label = "logout";
-            action = "loginctl terminate-user ${config.home.username}";
-            text = "logout (e)";
-            keybind = "e";
-          }
-          {
-            label = "shutdown";
-            action = "${lib.getExe' pkgs.systemd "systemctl"} poweroff";
-            text = "shutdown (s)";
-            keybind = "s";
-          }
-          {
-            label = "reboot";
-            action = "${lib.getExe' pkgs.systemd "systemctl"} reboot";
-            text = "reboot (r)";
-            keybind = "r";
-          }
-        ];
+    programs.wlogout = {
+      inherit enable;
+      layout = [
+        {
+          label = "lock";
+          action = lib.getExe config.programs.swaylock.package;
+          text = "lock (l)";
+          keybind = "l";
+        }
+        {
+          label = "suspend";
+          action = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
+          text = "suspend (u)";
+          keybind = "u";
+        }
+        {
+          label = "hibernate";
+          action = "${lib.getExe' pkgs.systemd "systemctl"} hibernate";
+          text = "hibernate (h)";
+          keybind = "h";
+        }
+        {
+          label = "logout";
+          action = "loginctl terminate-user ${config.home.username}";
+          text = "logout (e)";
+          keybind = "e";
+        }
+        {
+          label = "shutdown";
+          action = "${lib.getExe' pkgs.systemd "systemctl"} poweroff";
+          text = "shutdown (s)";
+          keybind = "s";
+        }
+        {
+          label = "reboot";
+          action = "${lib.getExe' pkgs.systemd "systemctl"} reboot";
+          text = "reboot (r)";
+          keybind = "r";
+        }
+      ];
 
-        style = ''
+      style =
+        let
+          colors = util.colors.rose-pine-dawn;
+        in
+        ''
           * {
             background-image: none;
           }
@@ -156,17 +154,17 @@ in
           #shutdown  { color: ${colors.iris}; }
           #reboot    { color: ${colors.pine}; }
         '';
-      };
+    };
 
     services.mako = {
-      enable = cfg.notifications;
+      enable = enable;
       backgroundColor = "#7F6DA7AA";
       borderColor = "#413768";
       borderSize = 2;
     };
 
     # spaghetti wallpaper yoinked from https://www.artstation.com/artwork/ArwWzm
-    systemd.user.services.wallpaper = lib.mkIf (cfg.wm.which != null && cfg.wallpaper.regular != null) {
+    systemd.user.services.wallpaper = lib.mkIf (enable && cfg.wallpaper.regular != null) {
       Unit = {
         PartOf = [ "graphical-session.target" ];
         Description = "Set wallpapers";

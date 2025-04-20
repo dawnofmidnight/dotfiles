@@ -42,10 +42,6 @@
         thunderbird = true;
       };
       desktop = {
-        idling = true;
-        lockscreen = true;
-        logout = true;
-        notifications = true;
         theme = {
           cursor = {
             package = pkgs.rose-pine-cursor;
