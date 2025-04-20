@@ -38,8 +38,8 @@ in
           after-delay.enable = true;
         };
         lsp = {
-          display-messages = true;
           display-inlay-hints = true;
+          display-progress-messages = true;
         };
         cursor-shape = {
           normal = "bar";
