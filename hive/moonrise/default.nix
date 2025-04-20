@@ -24,7 +24,7 @@
     dev.enable = true;
     man = {
       enable = true;
-      generateCaches = true;
+      generateCaches = false;
     };
     nixos.enable = false;
   };
