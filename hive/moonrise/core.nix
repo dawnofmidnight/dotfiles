@@ -158,10 +158,13 @@
     ];
     distributedBuilds = true;
     settings = {
-      substituters = [ "ssh-ng://remote-build@152.7.58.97?priority=50&ssh-key=/etc/ssh/remote-build" ];
+      substituters = [
+        # "https://cache.nixos.org?priority=40"
+        "https://nix-cache.dusky-atria.ts.net?priority=50"
+      ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "sunset:oAwaEDVfaIkBngZ8/5R+8Oh/e1/XZB1lLWt3qWyat3w="
+        "nix-cache.dusky-atria.ts.net:MXbD6lTa1Fg1FfPkjnvREOaHT0gnMon9YjI815BY7g4="
       ];
     };
   };

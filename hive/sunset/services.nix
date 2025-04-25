@@ -19,6 +19,11 @@ in
         encode
         reverse_proxy localhost:8096
       '';
+      "nix-cache.${tailnet}".extraConfig = ''
+        bind tailscale/nix-cache
+        encode
+        reverse_proxy localhost:${builtins.toString config.services.nix-serve.port}
+      '';
       "yarr.${tailnet}".extraConfig = ''
         bind tailscale/yarr
         encode
@@ -34,6 +39,12 @@ in
     enable = true;
     cacheDir = "${dataDir}/cache";
     dataDir = "${drivePath}/jellyfin";
+  };
+
+  age.secrets.cache-private-key.file = ./cache-private-key.age;
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = config.age.secrets.cache-private-key.path;
   };
 
   services.syncthing = rec {
