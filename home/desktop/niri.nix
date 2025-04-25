@@ -43,10 +43,13 @@
 
       hotkey-overlay.skip-at-startup = true;
       prefer-no-csd = true;
-      spawn-at-startup = [
-        { command = [ (lib.getExe inputs.niri.packages.${pkgs.system}.xwayland-satellite-stable) ]; }
-        { command = [ (lib.getExe config.programs.waybar.package) ]; }
-      ] ++ lib.lists.optional config.dawn.communication.thunderbird { command = [ "thunderbird" ]; };
+      spawn-at-startup =
+        [
+          { command = [ (lib.getExe inputs.niri.packages.${pkgs.system}.xwayland-satellite-stable) ]; }
+          { command = [ (lib.getExe config.programs.waybar.package) ]; }
+        ]
+        ++ lib.lists.optional config.dawn.communication.thunderbird { command = [ "thunderbird" ]; }
+        ++ lib.lists.optional config.dawn.communication.signal { command = [ "signal-desktop" ]; };
       screenshot-path = "${config.home.homeDirectory}/screenshots/screenshot_%Y-%m-%d_%H:%M:%S.png";
 
       layout =

@@ -1,0 +1,25 @@
+From 1745e7333bdef45ebd83023296af24f702acbfac Mon Sep 17 00:00:00 2001
+From: dawnofmidnight <dawnofmidnight@duck.com>
+Date: Sat, 26 Apr 2025 11:46:09 -0400
+Subject: [PATCH] set electron windows options to show window
+
+---
+ app/main.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app/main.ts b/app/main.ts
+index 42c8df9d3..b741e9b36 100644
+--- a/app/main.ts
++++ b/app/main.ts
+@@ -691,7 +691,7 @@ async function createWindow() {
+     : DEFAULT_HEIGHT;
+ 
+   const windowOptions: Electron.BrowserWindowConstructorOptions = {
+-    show: false,
++    show: true,
+     width,
+     height,
+     minWidth: MIN_WIDTH,
+-- 
+2.47.2
+
