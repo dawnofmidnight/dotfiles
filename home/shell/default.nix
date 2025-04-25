@@ -39,10 +39,12 @@ in
         set -g fish_greeting
         set -g fish_cursor_default line
       '';
-      shellAliases = {
+      shellAbbrs = {
         cat = "bat -p";
         ls = "eza";
-        lsl = "eza -la --icons --group-directories-first";
+      };
+      shellAliases = {
+        ll = "eza -la --icons --group-directories-first";
       };
     };
 
