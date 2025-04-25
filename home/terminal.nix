@@ -96,6 +96,7 @@ in
       settings = {
         background-opacity = 0.9;
         command = lib.getExe config.dawn.shell.default.package;
+        confirm-close-surface = false;
         cursor-style = "bar";
         font-family = config.dawn.fonts.mono.name;
         theme = "rose-pine-dawn";
