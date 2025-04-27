@@ -8,14 +8,4 @@
       strict = true;
     };
   };
-  settings.excludes = [
-    "*.age"
-    "*.jpg"
-    "*.nu"
-    "*.png"
-    ".jj/*"
-    "flake.lock"
-    "hive/moonrise/borg-key-backup"
-    "justfile"
-  ];
 }

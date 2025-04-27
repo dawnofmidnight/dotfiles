@@ -1,9 +1,9 @@
 { pkgs, pkgs-unstable }:
 {
   typst = pkgs.mkShellNoCC {
-    packages = with pkgs-unstable; [
-      typst
-      tinymist
+    packages = [
+      pkgs-unstable.tinymist
+      pkgs-unstable.typst
     ];
   };
 
