@@ -56,9 +56,9 @@ in
           merge-editor = "vscode";
         };
         signing = {
-          behavior = "drop";
+          behavior = "own";
           backend = "ssh";
-          key = "${config.home.homeDirectory}/.ssh/id_ed25519_sk.pub";
+          key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         };
         git.sign-on-push = true;
       };

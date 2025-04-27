@@ -1,6 +1,6 @@
 { config, util, ... }:
 let
-  keys = util.ssh-keys.hosts ++ util.ssh-keys.keys ++ util.ssh-keys.users;
+  keys = util.ssh-keys.hosts ++ util.ssh-keys.users;
 in
 {
   users = {

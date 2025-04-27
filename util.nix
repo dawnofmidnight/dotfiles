@@ -44,16 +44,9 @@
 
     remote-build = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPC6XPDTYwupiR6vvtY6CNrD81n5DsGRbAwqfPsdP3cr root@moonrise";
 
-    nyx = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIPjJ2ThBBSL7x5Qd6cInE0v2RZqyKtB/adWl3Q+q/y3EAAAAB3NzaDpueXg= ssh:nyx";
-    hemera = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIPgYIf5eWzDq+EIx6og7hh1bfaoRhYJcDkxyid8LsZ8EAAAACnNzaDpoZW1lcmE= ssh:hemera";
-
     hosts = [
       moonrise
       sunset
-    ];
-    keys = [
-      nyx
-      hemera
     ];
     users = [ dawn-moonrise ];
   };

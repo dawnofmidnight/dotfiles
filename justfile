@@ -8,5 +8,5 @@ moonrise:
     sudo nixos-rebuild switch -v --log-format internal-json --flake .#moonrise |& nom --json
 
 sunset:
-    nom build --no-link .#nixosConfigurations.sunset.config.system.build.toplevel
-    nixos-rebuild --target-host root@{{sunset-ip}} switch --flake .#sunset
+    ssh-add -l | grep -q 'dawn@moonrise' || ssh-add
+    nixos-rebuild --target-host root@{{sunset-ip}} switch -v --log-format internal-json --flake .#sunset |& nom --json
