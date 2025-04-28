@@ -113,7 +113,6 @@
       pkgs-unstable.libreoffice-fresh
       pkgs-unstable.obsidian
       pkgs-unstable.yubioath-flutter
-      pkgs.calibre
       pkgs.cavalier
       pkgs.foliate
       pkgs.hunspell

@@ -14,6 +14,16 @@ in
       }
     '';
     virtualHosts = {
+      "calibre-server.${tailnet}".extraConfig = ''
+        bind tailscale/calibre-server
+        encode
+        reverse_proxy localhost:${builtins.toString config.services.calibre-server.port}
+      '';
+      "calibre-web.${tailnet}".extraConfig = ''
+        bind tailscale/calibre-web
+        encode
+        reverse_proxy localhost:${builtins.toString config.services.calibre-web.listen.port}
+      '';
       "jellyfin.${tailnet}".extraConfig = ''
         bind tailscale/jellyfin
         encode
@@ -23,6 +33,10 @@ in
         bind tailscale/nix-cache
         encode
         reverse_proxy localhost:${builtins.toString config.services.nix-serve.port}
+      '';
+      "sunset.${tailnet}".extraConfig = ''
+        encode
+        file_server browse
       '';
       "yarr.${tailnet}".extraConfig = ''
         bind tailscale/yarr
@@ -34,6 +48,25 @@ in
   services.tailscale.permitCertUid = config.services.caddy.user;
   age.secrets.caddy-environment.file = ./caddy-environment.age;
   systemd.services.caddy.serviceConfig.EnvironmentFile = config.age.secrets.caddy-environment.path;
+
+  services.calibre-server = {
+    enable = true;
+    auth = {
+      enable = true;
+      mode = "basic";
+      userDb = "${drivePath}/media/books/users.db";
+    };
+    libraries = [ "${drivePath}/media/books" ];
+  };
+
+  services.calibre-web = {
+    enable = true;
+    options = {
+      enableBookConversion = true;
+      enableBookUploading = true;
+      calibreLibrary = "${drivePath}/media/books";
+    };
+  };
 
   services.jellyfin = rec {
     enable = true;
