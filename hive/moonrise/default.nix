@@ -112,6 +112,7 @@
       # keep-sorted start
       pkgs-unstable.libreoffice-fresh
       pkgs-unstable.obsidian
+      pkgs-unstable.yt-dlp
       pkgs-unstable.yubioath-flutter
       pkgs.cavalier
       pkgs.foliate
@@ -126,7 +127,6 @@
       pkgs.sage
       pkgs.sioyek
       pkgs.vlc
-      pkgs.yt-dlp
       # keep-sorted end
     ];
   };
