@@ -27,20 +27,13 @@ in
     settings = {
       theme = "rose_pine_dawn_transparent";
       editor = {
-        line-number = "relative";
-        true-color = true;
-        rulers = [ 80 ];
-        bufferline = "always";
-        color-modes = true;
-        soft-wrap.enable = true;
+        # keep-sorted start block=yes
         auto-save = {
           focus-lost = true;
           after-delay.enable = true;
         };
-        lsp = {
-          display-inlay-hints = true;
-          display-progress-messages = true;
-        };
+        bufferline = "always";
+        color-modes = true;
         cursor-shape = {
           normal = "bar";
           insert = "bar";
@@ -51,6 +44,15 @@ in
           cursor-line = "hint";
           other-lines = "error";
         };
+        line-number = "relative";
+        lsp = {
+          display-inlay-hints = true;
+          display-progress-messages = true;
+        };
+        rulers = [ 80 ];
+        soft-wrap.enable = true;
+        true-color = true;
+        # keep-sorted end
       };
     };
 
@@ -95,6 +97,8 @@ in
           name = "nix";
           language-servers = [ (lib.getExe pkgs.nixd) ];
         };
+
+      language-server.rust-analyzer.config.check.command = "clippy";
     };
   };
 
