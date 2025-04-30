@@ -158,9 +158,7 @@
     ];
     distributedBuilds = true;
     settings = {
-      substituters = [
-        "https://nix-cache.dusky-atria.ts.net?priority=50"
-      ];
+      substituters = [ "https://nix-cache.dusky-atria.ts.net?priority=50" ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-cache.dusky-atria.ts.net:MXbD6lTa1Fg1FfPkjnvREOaHT0gnMon9YjI815BY7g4="
