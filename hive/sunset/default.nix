@@ -6,6 +6,13 @@
     ./services.nix
   ];
 
+  documentation = {
+    dev.enable = false;
+    info.enable = false;
+    man.enable = false;
+    nixos.enable = false;
+  };
+
   home-manager.users.dawn.dawn = {
     editors.helix = true;
     languages.nix = true;
