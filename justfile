@@ -1,5 +1,3 @@
-sunset-ip := "152.7.58.97"
-
 all: moonrise sunset
 
 moonrise:
@@ -8,5 +6,6 @@ moonrise:
     sudo nixos-rebuild switch -v --log-format internal-json --flake .#moonrise |& nom --json
 
 sunset:
-    ssh-add -l | grep -q 'dawn@moonrise' || ssh-add
-    nixos-rebuild --target-host root@{{sunset-ip}} switch -v --log-format internal-json --flake .#sunset |& nom --json
+    ssh sunset -- exit
+    nom build --no-link .#nixosConfigurations.sunset.config.system.build.toplevel
+    nixos-rebuild --target-host root@sunset switch --flake .#sunset

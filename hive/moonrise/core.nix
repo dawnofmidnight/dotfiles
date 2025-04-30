@@ -141,7 +141,7 @@
   nix = {
     buildMachines = [
       {
-        hostName = "152.7.58.97";
+        hostName = "sunset";
         maxJobs = 4;
         protocol = "ssh-ng";
         sshUser = "remote-build";
@@ -159,7 +159,6 @@
     distributedBuilds = true;
     settings = {
       substituters = [
-        # "https://cache.nixos.org?priority=40"
         "https://nix-cache.dusky-atria.ts.net?priority=50"
       ];
       trusted-public-keys = [
