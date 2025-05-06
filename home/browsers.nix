@@ -76,21 +76,6 @@ in
           "browser.search.separatePrivateDefault" = false;
           "browser.startup.page" = 3;
           "browser.tabs.groups.enabed" = true;
-          "browser.uiCustomization.navBarWhenVerticalTabs" = [
-            "sidebar-button"
-            "back-button"
-            "forward-button"
-            "stop-reload-button"
-            "vertical-spacer"
-            "urlbar-container"
-            "ublock0_raymondhill_net-browser-action"
-            "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
-            "_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action"
-            "wayback_machine_mozilla_org-browser-action"
-            "unified-extensions-button"
-            "downloads-button"
-            "preferences-button"
-          ];
           "font.default.x-western" = "sans-serif";
           "privacy.donottrackheader.enabled" = true;
           "privacy.resistFingerprinting" = false;
@@ -127,6 +112,10 @@ in
           };
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          "{73a6fe31-595d-460b-a920-fcc0f8843232}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/noscript/latest.xpi";
             installation_mode = "force_installed";
           };
           "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}" = {
