@@ -145,7 +145,7 @@
         maxJobs = 4;
         protocol = "ssh-ng";
         sshUser = "remote-build";
-        sshKey = "/etc/ssh/remote-build";
+        sshKey = null;
         system = "aarch64-linux";
         supportedFeatures = [
           "benchmark"

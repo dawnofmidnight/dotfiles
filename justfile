@@ -7,5 +7,4 @@ moonrise:
 
 sunset:
     ssh sunset -- exit
-    nom build --no-link .#nixosConfigurations.sunset.config.system.build.toplevel
-    nixos-rebuild --target-host root@sunset switch --flake .#sunset
+    nixos-rebuild switch -v --log-format internal-json --flake .#sunset --target-host root@sunset |& nom --json

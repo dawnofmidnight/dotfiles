@@ -26,7 +26,7 @@ let
     '';
 
     outputHashMode = "recursive";
-    outputHash = "sha256-UR9CG/zIslkXHDj1fDWmhx8hJZ8VLvZzOTGvGqqx1Ls=";
+    outputHash = "sha256-RPSH8TEQsn8/+XlAGWgG6QEQ6AlRC9H9u7pYH6dtteY=";
   };
 in
 prev.caddy.overrideAttrs (_prev: {

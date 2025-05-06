@@ -95,6 +95,7 @@ in
       pkgs.bintools
       pkgs.dust
       pkgs.just
+      pkgs.jc
       pkgs.jq
       pkgs.glow
       pkgs.ouch

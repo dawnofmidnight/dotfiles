@@ -114,6 +114,7 @@
       pkgs-unstable.obsidian
       pkgs-unstable.yt-dlp
       pkgs-unstable.yubioath-flutter
+      pkgs.amfora
       pkgs.cavalier
       pkgs.foliate
       pkgs.hunspell

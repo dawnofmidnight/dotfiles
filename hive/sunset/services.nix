@@ -92,7 +92,7 @@ in
         ];
         ignorePerms = true;
         type = "receiveonly";
-        versioning.type = "trashcan";
+        versioning.type = "simple";
       };
       reverie = {
         path = "${dataDir}/reverie";
@@ -102,13 +102,13 @@ in
         ];
         ignorePerms = true;
         type = "receiveonly";
-        versioning.type = "trashcan";
+        versioning.type = "simple";
       };
       music = {
         path = "${drivePath}/media/music";
         devices = [ "moonrise" ];
         ignorePerms = true;
-        versioning.type = "trashcan";
+        versioning.type = "simple";
       };
     };
   };

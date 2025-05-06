@@ -1,10 +1,5 @@
-{ config, pkgs-unstable, ... }:
+{ config, ... }:
 {
-  programs.nh = {
-    enable = true;
-    package = pkgs-unstable.nh;
-  };
-
   programs.ssh = {
     enableAskPassword = true;
     startAgent = true;
@@ -35,7 +30,12 @@
           "ecliptic"
           "sunset"
         ];
-        versioning.type = "trashcan";
+        versioning.type = "simple";
+      };
+      music = {
+        path = "${config.users.users.dawn.home}/music";
+        devices = [ "sunset" ];
+        versioning.type = "simple";
       };
       reverie = {
         path = "${config.users.users.dawn.home}/notes/reverie";
@@ -43,13 +43,8 @@
           "ecliptic"
           "sunset"
         ];
-        versioning.type = "trashcan";
+        versioning.type = "simple";
         fsWatcherEnabled = false;
-      };
-      music = {
-        path = "${config.users.users.dawn.home}/music";
-        devices = [ "sunset" ];
-        versioning.type = "trashcan";
       };
     };
   };
