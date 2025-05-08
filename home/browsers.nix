@@ -51,22 +51,34 @@ in
           };
         };
         containersForce = true;
-        search = rec {
-          default = "DuckDuckGo Preconfigured";
+        search = {
           force = true;
-          privateDefault = default;
-          engines."DuckDuckGo Preconfigured" = {
-            urls = [
-              {
-                template = "https://duckduckgo.com/?q={searchTerms}&kbg=-1&kbe=0&kau=-1&kao=-1&kap=-1&kaq=-1&kax=-1&kak=-1";
-              }
-            ];
-            iconUpdateURL = "https://duckduckgo.com/favicon.ico";
-            updateInterval = 7 * 24 * 60 * 60 * 1000;
-            definedAliases = [
-              "@duckduckgo"
-              "@ddg"
-            ];
+          default = "ddg";
+          privateDefault = "ddg";
+          engines = {
+            ddg = {
+              urls = [
+                {
+                  template = "https://duckduckgo.com/?q={searchTerms}&kbg=-1&kbe=0&kau=-1&kao=-1&kap=-1&kaq=-1&kax=-1&kak=-1";
+                }
+              ];
+              iconUpdateURL = "https://duckduckgo.com/favicon.ico";
+              updateInterval = 7 * 24 * 60 * 60 * 1000;
+              definedAliases = [
+                "@duckduckgo"
+                "@ddg"
+              ];
+            };
+            # get rid of all the random engines librewolf adds
+            "Bing".metaData.hidden = true;
+            "DuckDuckGo".metaData.hidden = true;
+            "DuckDuckGo Lite".metaData.hidden = true;
+            "Google".metaData.hidden = true;
+            "MetaGer".metaData.hidden = true;
+            "Mojeek".metaData.hidden = true;
+            "SearXNG - searx.be".metaData.hidden = true;
+            "StartPage".metaData.hidden = true;
+            "Wikipedia (en)".metaData.hidden = true;
           };
         };
         settings = {
