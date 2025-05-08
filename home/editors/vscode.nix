@@ -60,7 +60,7 @@
 
             vsix = pkgs.buildNpmPackage rec {
               inherit pname version;
-              src = pkgs-unstable.fetchFromGitHub {
+              src = pkgs.fetchFromGitHub {
                 owner = publisher;
                 repo = pname;
                 rev = "1e9339224fbf4cc5b5d236e683c3285901b2faf3";

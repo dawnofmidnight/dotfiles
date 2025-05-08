@@ -1,12 +1,12 @@
-{ pkgs-unstable, ... }:
+{ pkgs, ... }:
 {
   programs.eclipse = {
-    package = pkgs-unstable.eclipses.eclipse-java;
+    package = pkgs.eclipses.eclipse-java;
     plugins = [
-      (pkgs-unstable.eclipses.plugins.buildEclipseUpdateSite rec {
+      (pkgs.eclipses.plugins.buildEclipseUpdateSite rec {
         name = "checkstyle";
         version = "10.20.1.202411071856";
-        src = pkgs-unstable.fetchFromGitHub {
+        src = pkgs.fetchFromGitHub {
           owner = "checkstyle";
           repo = "eclipse-cs-update-site";
           rev = "a760b14c03e16c23dc9461222e31e4b2156ff88d";
@@ -16,20 +16,20 @@
         sourceRoot = "${src.name}/releases/${version}";
       })
 
-      (pkgs-unstable.eclipses.plugins.buildEclipseUpdateSite {
+      (pkgs.eclipses.plugins.buildEclipseUpdateSite {
         name = "pmd";
         version = "7.7.0";
-        src = pkgs-unstable.fetchzip {
+        src = pkgs.fetchzip {
           stripRoot = false;
           url = "https://github.com/pmd/pmd-eclipse-plugin/releases/download/7.7.0.v20241025-0829-r/net.sourceforge.pmd.eclipse.p2updatesite-7.7.0.v20241025-0829-r.zip";
           hash = "sha256-Dmeo6N5yfoSincg1f5nz4HZaDb3zvnAl05qzwhHG2d0=";
         };
       })
 
-      (pkgs-unstable.eclipses.plugins.buildEclipseUpdateSite {
+      (pkgs.eclipses.plugins.buildEclipseUpdateSite {
         name = "spotbugs";
         version = "4.8.6";
-        src = pkgs-unstable.fetchzip {
+        src = pkgs.fetchzip {
           stripRoot = false;
           url = "https://github.com/spotbugs/spotbugs/releases/download/4.8.6/eclipsePlugin.zip";
           hash = "sha256-q52PDVpdXzDPqnHbj3gOXtYLbMv08AvK3PnBp8SxWN8=";
