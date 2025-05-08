@@ -11,23 +11,10 @@ in
 {
   options.dawn.shell = {
     fish = lib.mkEnableOption "fish";
-    nu = lib.mkEnableOption "nushell";
 
-    default = {
-      which = lib.mkOption {
-        type = lib.types.enum (lib.optional cfg.fish "fish" ++ lib.optional cfg.nu "nu");
-      };
-
-      package = lib.mkOption {
-        type = lib.types.package;
-        default =
-          if cfg.default.which == "fish" then
-            config.programs.fish.package
-          else if cfg.default.which == "nu" then
-            config.programs.nushell.package
-          else
-            null;
-      };
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = if cfg.fish then config.programs.fish.package else pkgs.bash;
     };
   };
 
@@ -46,13 +33,6 @@ in
       shellAliases = {
         ll = "eza -la --icons --group-directories-first";
       };
-    };
-
-    programs.nushell = {
-      enable = cfg.nu;
-      package = pkgs-unstable.nushell;
-      configFile.source = ./nu-config.nu;
-      envFile.source = ./nu-env.nu;
     };
 
     programs.bat = {
@@ -80,15 +60,9 @@ in
       arguments = [ "--no-require-git" ];
     };
 
-    programs.zellij = {
-      enable = true;
-      settings.theme = "catppuccin-frappe";
-    };
-
     programs.zoxide = {
       enable = true;
       enableFishIntegration = cfg.fish;
-      enableNushellIntegration = cfg.nu;
     };
 
     home.packages = [

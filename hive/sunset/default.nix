@@ -16,10 +16,7 @@
   home-manager.users.dawn.dawn = {
     editors.helix = true;
     languages.nix = true;
-    shell = {
-      fish = true;
-      default.which = "fish";
-    };
+    shell.fish = true;
     vcs.enable = true;
   };
 

@@ -9,7 +9,7 @@
     ./fonts.nix
     ./languages.nix
     ./launcher.nix
-    ./shell
+    ./shell.nix
     ./terminal.nix
     ./vcs.nix
     # keep-sorted end

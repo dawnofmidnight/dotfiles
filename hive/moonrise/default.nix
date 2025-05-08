@@ -85,11 +85,7 @@
         rust = true;
       };
       launcher.which = "fuzzel";
-      shell = {
-        fish = true;
-        nu = true;
-        default.which = "fish";
-      };
+      shell.fish = true;
       terminal = {
         ghostty = true;
         default.which = "ghostty";
