@@ -6,7 +6,10 @@ in
 {
   services.caddy = {
     enable = true;
-    package = pkgs-unstable.caddy;
+    package = pkgs-unstable.caddy.withPlugins {
+      plugins = [ "github.com/tailscale/caddy-tailscale@v0.0.0-20250508175905-642f61fea3cc" ];
+      hash = "sha256-q7NYHDtcE6GtjG4dYfFJ4IVO8dn/P8ZzhzXTYHEIihY=";
+    };
     globalConfig = ''
       grace_period 10s
       tailscale {
