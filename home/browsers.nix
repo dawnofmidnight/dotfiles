@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs-unstable,
+  pkgs,
   ...
 }:
 let
@@ -16,7 +16,13 @@ in
   config = {
     programs.chromium = {
       enable = cfg.chromium;
-      package = pkgs-unstable.ungoogled-chromium;
+      package = pkgs.ungoogled-chromium;
+      commandLineArgs = [
+        "--extension-mime-request-handling=always-prompt-for-install"
+        "--show-avatar-button=incognito-and-guest"
+        "--remove-tabsearch-button"
+        "--custom-ntp=https://start.duckduckgo.com"
+      ];
       extensions = [
         { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
         { id = "clngdbkpkpeebahjckkjfobafhncgmne"; } # stylus
@@ -26,7 +32,6 @@ in
 
     programs.librewolf = {
       enable = cfg.librewolf;
-      package = pkgs-unstable.librewolf;
       profiles.dawn = {
         containers = {
           dawn = {
@@ -53,42 +58,48 @@ in
         containersForce = true;
         search = {
           force = true;
-          default = "ddg";
-          privateDefault = "ddg";
+          default = "ddg-preconfigured";
+          privateDefault = "ddg-preconfigured";
           engines = {
-            ddg = {
+            ddg-preconfigured = {
+              definedAliases = [
+                "@duckduckgo"
+                "@ddg"
+              ];
+              icon = pkgs.fetchurl {
+                url = "https://duckduckgo.com/favicon.ico";
+                hash = "sha256-2ZT4BrHkIltQvlq2gbLOz4RcwhahmkMth4zqPLgVuv0=";
+              };
+              name = "ddg";
+              updateInterval = 7 * 24 * 60 * 60 * 1000;
               urls = [
                 {
                   template = "https://duckduckgo.com/?q={searchTerms}&kbg=-1&kbe=0&kau=-1&kao=-1&kap=-1&kaq=-1&kax=-1&kak=-1";
                 }
               ];
-              iconUpdateURL = "https://duckduckgo.com/favicon.ico";
-              updateInterval = 7 * 24 * 60 * 60 * 1000;
-              definedAliases = [
-                "@duckduckgo"
-                "@ddg"
-              ];
             };
             # get rid of all the random engines librewolf adds
-            "Bing".metaData.hidden = true;
-            "DuckDuckGo".metaData.hidden = true;
-            "DuckDuckGo Lite".metaData.hidden = true;
-            "Google".metaData.hidden = true;
-            "MetaGer".metaData.hidden = true;
-            "Mojeek".metaData.hidden = true;
-            "SearXNG - searx.be".metaData.hidden = true;
-            "StartPage".metaData.hidden = true;
-            "Wikipedia (en)".metaData.hidden = true;
+            bing.metaData.hidden = true;
+            ddg.metaData.hidden = true;
+            "policy-DuckDuckGo Lite".metaData.hidden = true;
+            google.metaData.hidden = true;
+            policy-MetaGer.metaData.hidden = true;
+            policy-Mojeek.metaData.hidden = true;
+            "policy-SearXNG - searx.be".metaData.hidden = true;
+            policy-StartPage.metaData.hidden = true;
           };
         };
         settings = {
           # keep-sorted start block=yes
           "browser.display.use_document_fonts" = 0;
+          "browser.download.autohideButton" = true;
+          "browser.download.dir" = config.xdg.userDirs.download;
           "browser.eme.ui.enabled" = false; # stop asking to enable DRM
           "browser.search.separatePrivateDefault" = false;
           "browser.startup.page" = 3;
-          "browser.tabs.groups.enabed" = true;
           "font.default.x-western" = "sans-serif";
+          "network.trr.mode" = 2;
+          "network.trr.uri" = "https://dns.quad9.net/dns-query";
           "privacy.donottrackheader.enabled" = true;
           "privacy.resistFingerprinting" = false;
           "sidebar.verticalTabs" = true;

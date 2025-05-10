@@ -7,6 +7,7 @@
   ];
 
   documentation = {
+    enable = false;
     dev.enable = false;
     info.enable = false;
     man.enable = false;
@@ -25,9 +26,9 @@
       isNormalUser = true;
       createHome = false;
       group = "remote-build";
+      home = "/var/empty";
       openssh.authorizedKeys.keys = [ util.ssh-keys.remote-build ];
     };
-
     groups.remote-build = { };
   };
 }

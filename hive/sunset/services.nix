@@ -1,4 +1,4 @@
-{ config, pkgs-unstable, ... }:
+{ config, pkgs, ... }:
 let
   drivePath = "/data";
   tailnet = "dusky-atria.ts.net";
@@ -6,7 +6,7 @@ in
 {
   services.caddy = {
     enable = true;
-    package = pkgs-unstable.caddy.withPlugins {
+    package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/tailscale/caddy-tailscale@v0.0.0-20250508175905-642f61fea3cc" ];
       hash = "sha256-q7NYHDtcE6GtjG4dYfFJ4IVO8dn/P8ZzhzXTYHEIihY=";
     };

@@ -16,7 +16,7 @@ in
           "wheel"
           "disk"
         ];
-        shell = config.home-manager.users.dawn.dawn.shell.package;
+        shell = config.programs.fish.package;
         hashedPassword = "$6$uoZ.rTXg6dTjo2YX$.jM2IUykJuOeBxMqQyfG6qlopcj9zh6LWFb2RrQdarwNaigZm3gXI3Ew8FY03EHivOfLMNlDWUaJ8p9T4F/Tn1";
         openssh.authorizedKeys.keys = keys;
       };
@@ -41,4 +41,6 @@ in
 
     xdg.enable = true;
   };
+
+  programs.fish.enable = true;
 }

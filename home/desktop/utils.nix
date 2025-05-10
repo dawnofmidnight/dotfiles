@@ -158,9 +158,11 @@ in
 
     services.mako = {
       enable = enable;
-      backgroundColor = "#7F6DA7AA";
-      borderColor = "#413768";
-      borderSize = 2;
+      settings = {
+        background-color = "#7F6DA7AA";
+        border-color = "#413768";
+        border-size = 2;
+      };
     };
 
     # spaghetti wallpaper yoinked from https://www.artstation.com/artwork/ArwWzm

@@ -1,7 +1,6 @@
-{ config, pkgs-unstable, ... }:
+{ config, ... }:
 {
   programs.zed-editor = {
-    package = pkgs-unstable.zed-editor;
     extensions = [
       # keep-sorted start
       "git-firefly"

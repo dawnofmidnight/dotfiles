@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 let
@@ -17,9 +16,9 @@ let
 in
 {
   programs.helix = {
-    package = pkgs-unstable.helix;
+    defaultEditor = true;
     extraPackages = [
-      pkgs-unstable.nixd
+      pkgs.nixd
       pkgs.marksman
       pkgs.taplo
     ];

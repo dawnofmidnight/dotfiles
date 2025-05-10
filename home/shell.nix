@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 let
@@ -21,7 +20,6 @@ in
   config = {
     programs.fish = {
       enable = cfg.fish;
-      package = pkgs-unstable.fish;
       interactiveShellInit = ''
         set -g fish_greeting
         set -g fish_cursor_default line
@@ -34,6 +32,8 @@ in
         ll = "eza -la --icons --group-directories-first";
       };
     };
+    # fish enables this, but we don't care for the build times
+    programs.man.generateCaches = false;
 
     programs.bat = {
       enable = true;

@@ -2,7 +2,6 @@
   config,
   lib,
   util,
-  pkgs-unstable,
   ...
 }:
 let
@@ -92,7 +91,6 @@ in
 
     programs.ghostty = {
       enable = cfg.ghostty;
-      package = pkgs-unstable.ghostty;
       settings = {
         background-opacity = 0.9;
         command = lib.getExe config.dawn.shell.package;

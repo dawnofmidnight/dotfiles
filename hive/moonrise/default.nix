@@ -2,7 +2,6 @@
   config,
   inputs,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 {
@@ -17,7 +16,7 @@
     pkgs.brightnessctl
     pkgs.man-pages
     pkgs.man-pages-posix
-    pkgs-unstable.sbctl
+    pkgs.sbctl
   ];
 
   documentation = {
@@ -26,6 +25,7 @@
       enable = true;
       generateCaches = false;
     };
+    info.enable = false;
     nixos.enable = false;
   };
 
@@ -70,7 +70,7 @@
           name = "Libertinus Serif";
         };
         mono = {
-          package = pkgs-unstable.nerd-fonts.iosevka-term;
+          package = pkgs.nerd-fonts.iosevka-term;
           name = "IosevkaTerm Nerd Font";
         };
         extra = [
@@ -106,24 +106,24 @@
 
     home.packages = [
       # keep-sorted start
-      pkgs-unstable.libreoffice-fresh
-      pkgs-unstable.obsidian
-      pkgs-unstable.yt-dlp
-      pkgs-unstable.yubioath-flutter
       pkgs.amfora
       pkgs.cavalier
       pkgs.foliate
       pkgs.hunspell
       pkgs.hunspellDicts.en_US
       pkgs.libqalculate
+      pkgs.libreoffice-fresh
       pkgs.mpv
       pkgs.nautilus
       pkgs.numbat
+      pkgs.obsidian
       pkgs.picard
       pkgs.qalculate-gtk
       pkgs.sage
       pkgs.sioyek
       pkgs.vlc
+      pkgs.yt-dlp
+      pkgs.yubioath-flutter
       # keep-sorted end
     ];
   };

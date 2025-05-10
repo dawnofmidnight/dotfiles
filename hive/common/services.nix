@@ -1,4 +1,4 @@
-{ config, pkgs-unstable, ... }:
+{ config, ... }:
 {
   networking = {
     nameservers = [ "9.9.9.9#dns.quad9.net" ];
@@ -36,7 +36,6 @@
   age.secrets.tailscale-auth-key.file = ./tailscale-auth-key.age;
   services.tailscale = {
     enable = true;
-    package = pkgs-unstable.tailscale;
     authKeyFile = config.age.secrets.tailscale-auth-key.path;
     extraUpFlags = [
       "--ssh"

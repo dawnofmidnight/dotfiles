@@ -27,7 +27,7 @@
     };
 
     # niri fails to start when the kernel isn't set
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_6_13;
     kernelParams = [
       "quiet"
       "udev.log_level=3"

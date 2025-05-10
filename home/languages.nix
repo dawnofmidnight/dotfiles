@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 let
@@ -30,13 +29,13 @@ in
 
     (lib.mkIf cfg.nix {
       home.packages = [
-        pkgs-unstable.nixd
-        pkgs-unstable.nixfmt-rfc-style
-        pkgs-unstable.nix-output-monitor
+        pkgs.nixd
+        pkgs.nixfmt-rfc-style
+        pkgs.nix-output-monitor
       ];
     })
 
-    (lib.mkIf cfg.r { home.packages = [ pkgs-unstable.R ]; })
+    (lib.mkIf cfg.r { home.packages = [ pkgs.R ]; })
 
     (lib.mkIf cfg.rust {
       home.packages = [ pkgs.bacon ];

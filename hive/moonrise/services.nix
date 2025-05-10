@@ -1,15 +1,17 @@
 { config, ... }:
 {
-  programs.ssh = {
-    enableAskPassword = true;
-    startAgent = true;
-  };
+  programs.gnupg.agent.enable = true;
 
   # seahorse provides an askpass helper that is necessary for when programs
   # such as `jj` need a password in a subprocess that doesn't have terminal
   # access. seahorse was chosen simply because it was the first attempt that
   # worked.
   programs.seahorse.enable = true;
+
+  programs.ssh = {
+    enableAskPassword = true;
+    startAgent = true;
+  };
 
   services.auto-cpufreq.enable = true;
   services.thermald.enable = true;

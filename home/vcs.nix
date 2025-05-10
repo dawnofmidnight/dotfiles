@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
+  util,
   ...
 }:
 let
@@ -42,10 +42,18 @@ in
 
     programs.jujutsu = {
       enable = cfg.enable;
-      package = pkgs-unstable.jujutsu;
       settings = {
-        user = { inherit (cfg.user) name email; };
+        revsets.log = "present(@) | ancestors(immutable_heads().., 6) | present(trunk())";
+        signing = {
+          behavior = "own";
+          backend = "ssh";
+          backends.ssh.allowed-signers = pkgs.writeText "allowed-signers" ''
+            ${config.programs.jujutsu.settings.user.email} ${util.ssh-keys.dawn-moonrise}
+          '';
+          key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        };
         ui = {
+          default-command = ["log"];
           diff.tool = [
             "${lib.getExe pkgs.difftastic}"
             "$left"
@@ -54,13 +62,9 @@ in
           ];
           editor = lib.getExe config.programs.helix.package;
           merge-editor = "vscode";
+          show-cryptographic-signatures = true;
         };
-        signing = {
-          behavior = "own";
-          backend = "ssh";
-          key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
-        };
-        git.sign-on-push = true;
+        user = { inherit (cfg.user) name email; };
       };
     };
   };

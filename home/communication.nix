@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs-unstable,
+  pkgs,
   ...
 }:
 let
@@ -16,10 +16,10 @@ in
   config = {
     programs.thunderbird = {
       enable = cfg.thunderbird;
-      package = pkgs-unstable.thunderbird-latest;
+      package = pkgs.thunderbird-latest;
       profiles.main.isDefault = true;
     };
 
-    home.packages = lib.lists.optional cfg.signal pkgs-unstable.signal-desktop;
+    home.packages = lib.lists.optional cfg.signal pkgs.signal-desktop;
   };
 }

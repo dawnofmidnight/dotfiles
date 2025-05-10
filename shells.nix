@@ -1,19 +1,19 @@
-{ pkgs, pkgs-unstable }:
+{ pkgs }:
 {
   typst = pkgs.mkShellNoCC {
     packages = [
-      pkgs-unstable.tinymist
-      pkgs-unstable.typst
+      pkgs.tinymist
+      pkgs.typst
     ];
   };
 
   idris2 = pkgs.mkShellNoCC {
     packages = [
-      pkgs-unstable.idris2
-      pkgs-unstable.idris2Packages.pack
       pkgs.chez
       pkgs.gmp
       pkgs.gnumake
+      pkgs.idris2
+      pkgs.idris2Packages.pack
       pkgs.pkg-config
       pkgs.rlwrap
     ];

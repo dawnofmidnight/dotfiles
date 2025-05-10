@@ -4,7 +4,6 @@
     inputs.agenix.nixosModules.default
     inputs.home-manager.nixosModules.default
     inputs.lix.nixosModules.default
-    ../../modules
     ./services.nix
     ./users.nix
   ];
@@ -25,10 +24,7 @@
       options = "--delete-older-than 7d";
     };
     optimise.automatic = true;
-    registry = {
-      pkgs.flake = inputs.nixpkgs;
-      pkgs-unstable.flake = inputs.nixpkgs-unstable;
-    };
+    registry.pkgs.flake = inputs.nixpkgs;
     settings = {
       builders-use-substitutes = true;
       experimental-features = [
@@ -52,10 +48,7 @@
 
   programs.command-not-found.enable = false;
 
-  environment.sessionVariables = {
-    DO_NOT_TRACK = 1;
-    EDITOR = "hx";
-  };
+  system.rebuild.enableNg = true;
 
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
