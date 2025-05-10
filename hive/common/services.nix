@@ -1,13 +1,26 @@
 { config, pkgs-unstable, ... }:
 {
-  networking.networkmanager = {
+  networking = {
+    nameservers = [ "9.9.9.9#dns.quad9.net" ];
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        # NOTE: to disable for a specific network, run `nmcli connection modify
+        #       <ssid> wifi.cloned-mac-address permanent` (or replace
+        #       `permanent` with `stable`, `stable-ssid`, etc. as necessary)
+        # TODO: figure how to edit `/etc/NetworkManager/system-connections` to do
+        #       that declaratively
+        macAddress = "random";
+        powersave = true;
+      };
+    };
+  };
+
+  services.resolved = {
     enable = true;
-    # NOTE: to disable for a specific network, run `nmcli connection modify
-    #       <ssid> wifi.cloned-mac-address permanent` (or replace
-    #       `permanent` with `stable`, `stable-ssid`, etc. as necessary)
-    # TODO: figure how to edit `/etc/NetworkManager/system-connections` to do
-    #       that declaratively
-    wifi.macAddress = "random";
+    domains = [ "~." ];
+    dnsovertls = "true";
   };
 
   services.openssh = {
