@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lix = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.92.0-3.tar.gz";
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri = {
@@ -42,7 +42,6 @@
   outputs =
     {
       self,
-      lix,
       niri,
       nixpkgs,
       nixpkgs-unstable,
@@ -65,15 +64,6 @@
       };
 
       treefmtEval = treefmt-nix.lib.evalModule pkgs-x86_64 ./treefmt.nix;
-
-      collectFlakeInputs =
-        input:
-        [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
-
-      extraDeps = builtins.concatMap collectFlakeInputs (builtins.attrValues inputs) ++ [
-        self.checks.x86_64-linux.style
-        self.formatter.x86_64-linux
-      ];
     in
     {
       checks.x86_64-linux.style = treefmtEval.config.build.check self;
@@ -92,11 +82,9 @@
           modules = [
             ./hive/common
             ./hive/moonrise
-            lix.nixosModules.default
             {
               nixpkgs.overlays = [ niri.overlays.niri ];
               home-manager.extraSpecialArgs = specialArgs;
-              system.extraDependencies = extraDeps;
             }
           ];
           specialArgs = generalSpecialArgs // {
@@ -109,7 +97,6 @@
           modules = [
             ./hive/common
             ./hive/sunset
-            lix.nixosModules.default
             { home-manager.extraSpecialArgs = specialArgs; }
           ];
           specialArgs = generalSpecialArgs // {
