@@ -29,24 +29,6 @@
           # keep-sorted end
         ])
         ++ [
-          (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-            name = "lean4";
-            publisher = "leanprover";
-            version = "0.0.194";
-            hash = "sha256-zvr8cfZSO566MhIQ6K+ANC6EBZLWdOly8MDvgiKgyqo=";
-          })
-          (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-            name = "pest-ide-tools";
-            publisher = "pest";
-            version = "0.3.11";
-            hash = "sha256-RU0LAuVYNynx0OFd7ID07t7bggGWzQNAZLRXMm+hnwE=";
-          })
-          (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-            name = "yuck";
-            publisher = "eww-yuck";
-            version = "0.0.3";
-            hash = "sha256-DITgLedaO0Ifrttu+ZXkiaVA7Ua5RXc4jXQHPYLqrcM=";
-          })
           (
             let
               pname = "idris2-lsp-vscode";
