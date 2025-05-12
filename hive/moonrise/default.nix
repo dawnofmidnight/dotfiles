@@ -122,6 +122,7 @@
       pkgs.sage
       pkgs.sioyek
       pkgs.vlc
+      pkgs.wild
       pkgs.yt-dlp
       pkgs.yubioath-flutter
       # keep-sorted end
