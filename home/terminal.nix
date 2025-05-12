@@ -92,7 +92,7 @@ in
     programs.ghostty = {
       enable = cfg.ghostty;
       settings = {
-        background-opacity = 0.9;
+        # background-opacity = 0.9;
         command = lib.getExe config.dawn.shell.package;
         confirm-close-surface = false;
         cursor-style = "bar";

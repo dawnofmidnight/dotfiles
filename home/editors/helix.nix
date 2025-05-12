@@ -24,12 +24,15 @@ in
     ];
     ignores = config.programs.git.ignores;
     settings = {
-      theme = "rose_pine_dawn_transparent";
+      theme = "rose_pine_dawn_modified";
       editor = {
         # keep-sorted start block=yes
         auto-save = {
           focus-lost = true;
-          after-delay.enable = true;
+          after-delay = {
+            enable = true;
+            timeout = 500;
+          };
         };
         bufferline = "always";
         color-modes = true;
@@ -38,30 +41,33 @@ in
           insert = "bar";
           select = "bar";
         };
+        cursorline = true;
         file-picker.hidden = false;
+        indent-guides = {
+          render = true;
+          character = "┆";
+        };
         inline-diagnostics = {
           cursor-line = "hint";
           other-lines = "error";
         };
         line-number = "relative";
         lsp = {
+          auto-signature-help = false;
           display-inlay-hints = true;
           display-progress-messages = true;
         };
         rulers = [ 80 ];
+        scrolloff = 10;
         soft-wrap.enable = true;
         true-color = true;
         # keep-sorted end
       };
     };
 
-    themes.rose_pine_dawn_transparent = {
+    themes.rose_pine_dawn_modified = {
       inherits = "rose_pine_dawn";
-      "ui.background" = { };
-      "ui.background.separator" = { };
-      "ui.statusline" = { };
-      "ui.bufferline" = { };
-      "ui.bufferline.background" = { };
+      "ui.virtual.indent-guide".fg = "highlight_high";
     };
 
     languages = {
