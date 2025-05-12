@@ -10,6 +10,7 @@
   idris2 = pkgs.mkShellNoCC {
     packages = [
       pkgs.chez
+      pkgs.clang
       pkgs.gmp
       pkgs.gnumake
       pkgs.idris2
