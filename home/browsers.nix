@@ -72,11 +72,31 @@ in
               };
               name = "ddg";
               updateInterval = 7 * 24 * 60 * 60 * 1000;
-              urls = [
-                {
-                  template = "https://duckduckgo.com/?q={searchTerms}&kbg=-1&kbe=0&kau=-1&kao=-1&kap=-1&kaq=-1&kax=-1&kak=-1";
-                }
-              ];
+              urls =
+                let
+                  mkParam = name: value: {
+                    inherit name;
+                    inherit value;
+                  };
+                in
+                [
+                  {
+                    template = "https://duckduckgo.com/";
+                    params = [
+                      (mkParam "q" "{searchTerms}")
+                      # keep-sorted start
+                      (mkParam "kak" "-1")
+                      (mkParam "kao" "-1")
+                      (mkParam "kap" "-1")
+                      (mkParam "kaq" "-1")
+                      (mkParam "kau" "-1")
+                      (mkParam "kax" "-1")
+                      (mkParam "kbe" "0")
+                      (mkParam "kbg" "-1")
+                      # keep-sorted end
+                    ];
+                  }
+                ];
             };
             # get rid of all the random engines librewolf adds
             bing.metaData.hidden = true;
