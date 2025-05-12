@@ -53,7 +53,7 @@ in
           key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         };
         ui = {
-          default-command = ["log"];
+          default-command = [ "log" ];
           diff.tool = [
             "${lib.getExe pkgs.difftastic}"
             "$left"
