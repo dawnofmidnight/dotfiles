@@ -20,6 +20,12 @@
       };
 
       input = {
+        focus-follows-mouse.enable = true;
+        keyboard.xkb = {
+          layout = "us";
+          options = "compose:ralt";
+        };
+        touch.map-to-output = "eDP-1";
         touchpad = {
           click-method = "clickfinger";
           dwt = true;
@@ -27,8 +33,6 @@
           tap-button-map = "left-right-middle";
           natural-scroll = false;
         };
-        touch.map-to-output = "eDP-1";
-        focus-follows-mouse.enable = true;
       };
 
       outputs = {
@@ -47,6 +51,12 @@
         [
           { command = [ (lib.getExe inputs.niri.packages.${pkgs.system}.xwayland-satellite-stable) ]; }
           { command = [ (lib.getExe config.programs.waybar.package) ]; }
+          {
+            command = [
+              "fcitx"
+              "-dr"
+            ];
+          }
         ]
         ++ lib.lists.optional config.dawn.communication.thunderbird { command = [ "thunderbird" ]; }
         ++ lib.lists.optional config.dawn.communication.signal { command = [ "signal-desktop" ]; };

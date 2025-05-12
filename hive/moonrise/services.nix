@@ -1,6 +1,24 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
-  programs.gnupg.agent.enable = true;
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+    fcitx5 = {
+      addons = [
+        pkgs.fcitx5-gtk
+        pkgs.fcitx5-rose-pine
+        pkgs.libsForQt5.fcitx5-qt
+      ];
+      waylandFrontend = true;
+    };
+  };
+  home-manager.users.dawn.home.file.".XCompose".text = ''
+    include "%L"
+
+    <Multi_key> <g> <a> : "α"
+    <Multi_key> <g> <b> : "β"
+    <Multi_key> <g> <g> : "γ"
+  '';
 
   # seahorse provides an askpass helper that is necessary for when programs
   # such as `jj` need a password in a subprocess that doesn't have terminal
