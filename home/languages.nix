@@ -38,7 +38,10 @@ in
     (lib.mkIf cfg.r { home.packages = [ pkgs.R ]; })
 
     (lib.mkIf cfg.rust {
-      home.packages = [ pkgs.bacon ];
+      home.packages = [
+        pkgs.bacon
+        pkgs.rustup
+      ];
 
       home.file.".cargo/config.toml".source = (pkgs.formats.toml { }).generate "cargo-config" {
         build.target-dir = "${config.xdg.cacheHome}/cargo-target";
